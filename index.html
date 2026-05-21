@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>South Cotabato MSME Directory</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#1A6B3C;--green2:#2D9E5E;--green-pale:#E8F5EE;--green-border:#b8dfc8;
+  --gold:#C9A84C;--gold-light:#F0D690;
+  --ink:#1C1C1C;--ink2:#4A4A4A;--ink3:#888;
+  --bg:#F4F1EB;--surface:#fff;--border:#E0DBD0;
+  --red:#B83030;--red-pale:#FDE8E8;
+  --shadow:0 4px 20px rgba(0,0,0,.10);--radius:10px;
+}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg)}
+
+/* ── Header ── */
+#header{position:fixed;top:0;left:0;right:0;height:56px;z-index:1100;background:var(--green);border-bottom:3px solid var(--gold);display:flex;align-items:center;padding:0 16px;gap:10px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-box{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.logo-text h1{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;line-height:1.2}
+.logo-text span{font-size:10px;color:rgba(255,255,255,.65);display:block}
+.spacer{flex:1}
+.hstat{text-align:center;color:#fff}
+.hstat b{display:block;font-size:17px;font-weight:600;color:var(--gold-light);line-height:1}
+.hstat small{font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:.05em}
+.hsep{width:1px;height:32px;background:rgba(255,255,255,.2);margin:0 6px}
+.hbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:5px 12px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:background .15s;white-space:nowrap}
+.hbtn:hover{background:rgba(255,255,255,.28)}
+
+/* ── Layout ── */
+#app{display:flex;height:100%;padding-top:56px}
+#sidebar{width:290px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;z-index:900}
+#sidebar-top{padding:12px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.search-box{position:relative}
+.search-box input{width:100%;padding:9px 12px 9px 36px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--bg);transition:border-color .2s}
+.search-box input:focus{outline:none;border-color:var(--green)}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.filter-label{font-size:10px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;user-select:none;border:1.5px solid var(--border);background:var(--bg);color:var(--ink2);transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip.on{background:var(--green);color:#fff;border-color:var(--green)}
+#msme-list{flex:1;overflow-y:auto;padding:6px}
+.mcard{padding:10px 12px;border-radius:var(--radius);cursor:pointer;border:1.5px solid transparent;margin-bottom:4px;display:flex;align-items:flex-start;gap:10px;transition:all .15s}
+.mcard:hover{background:var(--green-pale);border-color:var(--green-border)}
+.mcard.active{background:var(--green-pale);border-color:var(--green)}
+.mcard-logo{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);background:var(--bg)}
+.mcard-logo-fb{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px;border:1px solid var(--border)}
+.mcard-info{min-width:0;flex:1}
+.mcard-name{font-size:12px;font-weight:600;line-height:1.3;color:var(--ink)}
+.mcard-cat{font-size:11px;color:var(--ink3);margin-top:1px}
+.mcard-muni{font-size:11px;color:var(--ink3);margin-top:2px}
+.mcard-prods{font-size:11px;color:var(--green);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.no-results{text-align:center;padding:2.5rem 1rem;color:var(--ink3);font-size:13px}
+#sidebar-foot{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--ink3);text-align:center}
+
+/* ── Map ── */
+#map{flex:1;z-index:1}
+
+/* ── Popup ── */
+.leaflet-popup-content-wrapper{border-radius:14px!important;padding:0!important;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.18)!important;border:1px solid var(--border)}
+.leaflet-popup-content{margin:0!important;width:255px!important;font-family:'DM Sans',sans-serif}
+.pu-head{padding:12px 14px 10px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+.pu-logo{width:40px;height:40px;border-radius:9px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;background:var(--bg)}
+.pu-logo-fb{width:40px;height:40px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid var(--border)}
+.pu-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
+.pu-badge{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase}
+.pu-body{padding:10px 14px}
+.pu-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:5px}
+.pu-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.ptag{padding:3px 8px;background:var(--bg);border:1px solid var(--border);border-radius:5px;font-size:11px;color:var(--ink2)}
+.pu-meta{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--ink3)}
+.pu-foot{padding:8px 14px;background:var(--bg);border-top:1px solid var(--border);display:flex;gap:6px}
+.pu-btn{flex:1;padding:7px;border-radius:8px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer}
+.pu-btn:hover{background:var(--green2)}
+.pu-edit-btn{padding:7px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;color:var(--ink2)}
+.pu-edit-btn:hover{border-color:var(--gold);color:var(--gold)}
+.leaflet-tooltip{background:var(--ink)!important;color:#fff!important;border:none!important;border-radius:7px!important;font-family:'DM Sans',sans-serif!important;font-size:12px!important;padding:5px 10px!important;box-shadow:0 2px 8px rgba(0,0,0,.25)!important;white-space:nowrap}
+.leaflet-tooltip-left::before{border-left-color:var(--ink)!important}
+.leaflet-tooltip-right::before{border-right-color:var(--ink)!important}
+
+/* ── Detail Panel ── */
+#detail{position:fixed;right:0;top:56px;bottom:0;width:320px;background:var(--surface);border-left:1px solid var(--border);z-index:1000;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;box-shadow:-4px 0 20px rgba(0,0,0,.08)}
+#detail.open{transform:translateX(0)}
+.dh{background:var(--green);padding:14px;display:flex;align-items:flex-start;gap:10px;color:#fff}
+.dh-logo{width:48px;height:48px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,.3);flex-shrink:0}
+.dh-logo-fb{width:48px;height:48px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.15)}
+.dh-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;line-height:1.3}
+.dh-sub{font-size:11px;opacity:.75;margin-top:2px}
+.dh-actions{display:flex;gap:6px;margin-top:8px}
+.dh-close{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.dh-close:hover{background:rgba(255,255,255,.28)}
+.db{padding:14px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.ds h3{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:8px}
+.ds p{font-size:12px;color:var(--ink2);line-height:1.65}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pcard{background:var(--green-pale);border:1px solid var(--green-border);border-radius:8px;padding:7px 9px;font-size:11px;color:var(--green);font-weight:600}
+.irow{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.irow:last-child{border:none}
+.ikey{color:var(--ink3)}
+.ival{font-weight:600;color:var(--ink);text-align:right;max-width:180px;word-break:break-word}
+.action-row{display:flex;gap:8px}
+.edit-btn{flex:1;padding:10px;border-radius:9px;border:1.5px solid var(--gold);background:#fff;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--gold);font-weight:600;transition:all .15s}
+.edit-btn:hover{background:var(--gold);color:#fff}
+.copy-btn{flex:1;padding:10px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--ink2);transition:all .15s}
+.copy-btn:hover{background:var(--green-pale);color:var(--green);border-color:var(--green-border)}
+.del-btn{padding:10px 14px;border-radius:9px;border:1.5px solid var(--red-pale);background:var(--red-pale);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--red);transition:all .15s}
+.del-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ── Legend ── */
+#legend{position:fixed;bottom:20px;left:298px;z-index:900;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:10px 14px;box-shadow:var(--shadow);max-height:calc(100vh - 120px);overflow-y:auto}
+.leg-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:8px}
+.leg-item{display:flex;align-items:center;gap:7px;font-size:11px;margin-bottom:4px;cursor:pointer;padding:2px 0}
+.leg-item:hover{color:var(--green)}
+.ldot{width:12px;height:12px;border-radius:50%;flex-shrink:0;border:2px solid rgba(0,0,0,.1)}
+
+/* ── Modal (shared by Add & Edit) ── */
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem}
+#modal-overlay.open{display:flex}
+#modal{background:#fff;border-radius:16px;width:520px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.modal-head{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-head h2{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink3);line-height:1;padding:2px}
+.modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em}
+.form-group input,.form-group select,.form-group textarea{padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--bg);transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--green)}
+.form-group textarea{resize:vertical;min-height:72px}
+.form-hint{font-size:10px;color:var(--ink3);margin-top:2px;line-height:1.4}
+
+/* Product tag editor */
+.prod-editor{display:flex;flex-direction:column;gap:6px}
+.prod-tags-wrap{display:flex;flex-wrap:wrap;gap:5px;min-height:32px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);cursor:text}
+.prod-tags-wrap:focus-within{border-color:var(--green)}
+.prod-tag-item{display:flex;align-items:center;gap:4px;background:var(--green-pale);border:1px solid var(--green-border);border-radius:20px;padding:3px 8px;font-size:12px;color:var(--green);font-weight:500}
+.prod-tag-remove{background:none;border:none;cursor:pointer;color:var(--green);font-size:13px;line-height:1;padding:0;display:flex;align-items:center;opacity:.7}
+.prod-tag-remove:hover{opacity:1}
+.prod-input-row{display:flex;gap:6px}
+.prod-input-row input{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--bg)}
+.prod-input-row input:focus{outline:none;border-color:var(--green)}
+.prod-add-btn{padding:7px 14px;border-radius:8px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.prod-add-btn:hover{background:var(--green2)}
+
+/* Location picker */
+.loc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.loc-hint{font-size:11px;color:var(--ink3);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;line-height:1.5}
+.loc-hint a{color:var(--green);text-decoration:none;font-weight:600}
+.loc-hint a:hover{text-decoration:underline}
+
+.modal-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
+.btn-cancel{padding:9px 18px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--ink2)}
+.btn-save{padding:9px 22px;border-radius:8px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.btn-save:hover{background:var(--green2)}
+
+/* Changed indicator */
+.changed-badge{display:inline-block;background:var(--gold);color:var(--ink);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle}
+
+/* Toast */
+#toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--ink);color:#fff;padding:9px 15px;border-radius:9px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none}
+#toast.show{opacity:1}
+mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
+@media(max-width:640px){#sidebar{display:none}#legend{left:8px}#detail{width:100%}}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="logo">
+    <div class="logo-box">🌿</div>
+    <div class="logo-text">
+      <h1>South Cotabato MSME Map</h1>
+      <span>Micro, Small &amp; Medium Enterprise Directory</span>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="hstat"><b id="h-total">0</b><small>Total MSMEs</small></div>
+  <div class="hsep"></div>
+  <div class="hstat"><b id="h-shown">0</b><small>Shown</small></div>
+  <div class="hsep"></div>
+  <div class="hstat"><b id="h-munis">0</b><small>Municipalities</small></div>
+  <div class="hsep"></div>
+  <button class="hbtn" onclick="openModal()">＋ Add MSME</button>
+</div>
+
+<div id="app">
+  <div id="sidebar">
+    <div id="sidebar-top">
+      <div class="search-box">
+        <span class="si">🔍</span>
+        <input type="text" id="search" placeholder="Search MSME, product, location…">
+      </div>
+      <div class="filter-label">Filter by Category</div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="msme-list"></div>
+    <div id="sidebar-foot">📍 Hover to preview · Click to explore · ✏️ Edit from profile</div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<div id="legend">
+  <div class="leg-title">Categories</div>
+  <div id="leg-items"></div>
+</div>
+
+<!-- Detail Panel -->
+<div id="detail">
+  <div class="dh" style="position:relative">
+    <div id="dh-logo-wrap"></div>
+    <div style="flex:1;min-width:0">
+      <div class="dh-title" id="dh-title"></div>
+      <div class="dh-sub" id="dh-sub"></div>
+    </div>
+    <button class="dh-close" onclick="closeDetail()">✕</button>
+  </div>
+  <div class="db" id="db"></div>
+</div>
+
+<!-- Add / Edit Modal -->
+<div id="modal-overlay">
+  <div id="modal">
+    <div class="modal-head">
+      <h2 id="modal-title">➕ Add New MSME</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label>Business Name *</label>
+        <input type="text" id="f-name" placeholder="e.g. Juan's Bakery">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="f-cat">
+            <option value="Food">Food</option>
+            <option value="Agriculture">Agriculture</option>
+            <option value="Tourism">Tourism</option>
+            <option value="Handicrafts">Handicrafts</option>
+            <option value="Garments">Garments</option>
+            <option value="Personal Care">Personal Care</option>
+            <option value="Construction">Construction</option>
+            <option value="Retail">Retail</option>
+            <option value="Services">Services</option>
+            <option value="Health">Health</option>
+            <option value="Technology">Technology</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Municipality *</label>
+          <select id="f-muni">
+            <option value="Koronadal City">Koronadal City</option>
+            <option value="Banga">Banga</option>
+            <option value="Lake Sebu">Lake Sebu</option>
+            <option value="Norala">Norala</option>
+            <option value="Polomolok">Polomolok</option>
+            <option value="Santo Niño">Santo Niño</option>
+            <option value="Senator Ninoy Aquino">Senator Ninoy Aquino</option>
+            <option value="Surallah">Surallah</option>
+            <option value="T'Boli">T'Boli</option>
+            <option value="Tampakan">Tampakan</option>
+            <option value="Tantangan">Tantangan</option>
+            <option value="Tupi">Tupi</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product tag editor -->
+      <div class="form-group">
+        <label>Products / Services *</label>
+        <div class="prod-editor">
+          <div class="prod-tags-wrap" id="prod-tags-wrap" onclick="document.getElementById('prod-input').focus()"></div>
+          <div class="prod-input-row">
+            <input type="text" id="prod-input" placeholder="Type a product and press Add or Enter…">
+            <button class="prod-add-btn" onclick="addProductTag()">＋ Add</button>
+          </div>
+        </div>
+        <span class="form-hint">Add each product one at a time. Click ✕ on a tag to remove it.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="f-desc" placeholder="Brief description of the business…"></textarea>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label>📍 Location (Coordinates) *</label>
+        <div class="loc-hint">
+          To get coordinates: Open <a href="https://maps.google.com" target="_blank">Google Maps</a> →
+          find the business location → right-click → the two numbers at the top are the coordinates.
+          First number = Latitude, second = Longitude.
+        </div>
+      </div>
+      <div class="loc-row">
+        <div class="form-group">
+          <label>Latitude *</label>
+          <input type="number" id="f-lat" placeholder="e.g. 6.5277" step="any">
+        </div>
+        <div class="form-group">
+          <label>Longitude *</label>
+          <input type="number" id="f-lng" placeholder="e.g. 124.8040" step="any">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contact Info</label>
+          <input type="text" id="f-contact" placeholder="e.g. 09171234567">
+        </div>
+        <div class="form-group">
+          <label>Logo URL</label>
+          <input type="text" id="f-logo" placeholder="https://…">
+          <span class="form-hint">Optional. Paste any public image link.</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" id="modal-save-btn" onclick="saveMSME()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+
+// ════════════════════════════════════════════════════════
+// ▼▼▼  MSME DATA — edit values here to update entries ▼▼▼
+// ════════════════════════════════════════════════════════
+const MSME_DATA = [
+  {
+    name:         "G Farm",
+    category:     "Food",
+    municipality: "Tantangan",
+    products:     ["Curd"],
+    description:  "A local farm-based food producer in Tantangan.",
+    lat:          6.527680863,
+    lng:          124.8040981,
+    contact:      "",
+    logoUrl:      ""
+  },
+  {
+    name:         "Mommy Mels",
+    category:     "Food",
+    municipality: "Koronadal City",
+    products:     ["Tart"],
+    description:  "Home-based food business known for delicious tarts.",
+    lat:          6.507293209,
+    lng:          124.8363237,
+    contact:      "",
+    logoUrl:      ""
+  },
+  {
+    name:         "SG Farm",
+    category:     "Tourism",
+    municipality: "Tupi",
+    products:     ["Tourist Spot"],
+    description:  "A scenic farm destination in Tupi, South Cotabato.",
+    lat:          6.3326,
+    lng:          124.9977,
+    contact:      "",
+    logoUrl:      ""
+  },
+  // Add more entries here...
+];
+// ════════════════════════════════════════════════════════
+
+const CAT_STYLES = {
+  'food':           {color:'#1A6B3C',bg:'#E8F5EE',icon:'🍽️'},
+  'food & beverage':{color:'#1A6B3C',bg:'#E8F5EE',icon:'🍽️'},
+  'agriculture':    {color:'#2D7A1F',bg:'#EBF5E8',icon:'🌾'},
+  'tourism':        {color:'#1A7A7A',bg:'#E8F8F8',icon:'🏖️'},
+  'handicrafts':    {color:'#9C6B0A',bg:'#FDF3E3',icon:'🎁'},
+  'garments':       {color:'#6B3A8B',bg:'#F3E8FF',icon:'👗'},
+  'personal care':  {color:'#B83060',bg:'#FDE8F0',icon:'💄'},
+  'construction':   {color:'#5A5A5A',bg:'#F0F0F0',icon:'🏗️'},
+  'retail':         {color:'#1A5C8B',bg:'#E8F0F8',icon:'🛒'},
+  'services':       {color:'#7A5500',bg:'#FFF3E0',icon:'⚙️'},
+  'health':         {color:'#8B1A1A',bg:'#FFE8E8',icon:'❤️'},
+  'technology':     {color:'#1A4A8B',bg:'#E8F0FF',icon:'💻'},
+};
+const FB=['#1A6B3C','#9C6B0A','#2D7A1F','#6B3A8B','#B83060','#5A5A5A','#1A5C8B','#7A5500','#1A7A7A'];
+let dynCats={},dynIdx=0;
+function catStyle(cat){
+  const k=(cat||'other').toLowerCase().trim();
+  if(CAT_STYLES[k]) return CAT_STYLES[k];
+  if(!dynCats[k]){dynCats[k]={color:FB[dynIdx%FB.length],bg:'#F5F5F5',icon:'🏪'};dynIdx++;}
+  return dynCats[k];
+}
+
+// ── STATE ─────────────────────────────────────────────
+let allData=[], markers={}, activeFilter='All', activeId=null, map;
+let modalMode='add', editingId=null;
+let pendingProducts=[];
+
+// ── MAP ───────────────────────────────────────────────
+function initMap(){
+  map=L.map('map',{center:[6.35,124.78],zoom:10,zoomControl:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom:19
+  }).addTo(map);
+  L.control.zoom({position:'topright'}).addTo(map);
+  L.control.scale({position:'bottomright',imperial:false}).addTo(map);
+  map.on('click',()=>{map.closePopup();setActive(null);});
+}
+
+// ── INIT ──────────────────────────────────────────────
+function initData(){
+  // Load base data
+  allData = MSME_DATA.filter(r=>r.name&&!isNaN(r.lat)&&!isNaN(r.lng))
+    .map((r,i)=>({...r,id:String(i+1)}));
+
+  // Merge saved edits & additions from localStorage
+  try{
+    const saved=JSON.parse(localStorage.getItem('msme_overrides')||'{}');
+    // Apply edits to existing entries
+    allData=allData.map(m=>saved.edits&&saved.edits[m.id]?{...m,...saved.edits[m.id]}:m);
+    // Add new entries
+    if(saved.additions) saved.additions.forEach(a=>allData.push(a));
+  }catch(e){}
+
+  render();
+}
+
+function render(){
+  Object.values(markers).forEach(m=>map.removeLayer(m));
+  markers={}; activeFilter='All'; activeId=null;
+  buildChips(); buildLegend(); applyFilters(); updateStats();
+  if(allData.length){
+    map.fitBounds(allData.map(m=>[m.lat,m.lng]),{padding:[40,40],maxZoom:14});
+  }
+}
+
+function updateStats(){
+  document.getElementById('h-total').textContent=allData.length;
+  document.getElementById('h-shown').textContent=filtered().length;
+  document.getElementById('h-munis').textContent=new Set(allData.map(m=>m.municipality).filter(Boolean)).size;
+}
+
+// ── PERSISTENCE ───────────────────────────────────────
+function saveToStorage(){
+  try{
+    const base=MSME_DATA.map((r,i)=>String(i+1));
+    const edits={};
+    const additions=[];
+    allData.forEach(m=>{
+      if(base.includes(m.id)){
+        // Check if different from original
+        const orig=MSME_DATA[parseInt(m.id)-1];
+        if(orig && JSON.stringify(m)!==JSON.stringify({...orig,id:m.id})){
+          edits[m.id]=m;
+        }
+      } else {
+        additions.push(m);
+      }
+    });
+    localStorage.setItem('msme_overrides',JSON.stringify({edits,additions}));
+  }catch(e){}
+}
+
+// ── MARKERS ───────────────────────────────────────────
+function makeIcon(m,selected=false){
+  const cs=catStyle(m.category);
+  const sz=selected?44:36;
+  const shadow=selected?'0 0 0 3px rgba(26,107,60,.4),0 3px 14px rgba(0,0,0,.38)':'0 2px 10px rgba(0,0,0,.28)';
+  const inner=m.logoUrl
+    ?`<img src="${esc(m.logoUrl)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><span style="display:none;font-size:${selected?18:15}px">${cs.icon}</span>`
+    :`<span style="font-size:${selected?18:15}px">${cs.icon}</span>`;
+  return L.divIcon({
+    html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${cs.color};border:3px solid #fff;box-shadow:${shadow};display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer">${inner}</div>`,
+    className:'',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-(sz/2+4)]
+  });
+}
+
+function buildPopupHTML(m){
+  const cs=catStyle(m.category);
+  const tags=(m.products||[]).slice(0,5).map(p=>`<span class="ptag">${esc(p)}</span>`).join('');
+  const more=(m.products||[]).length>5?`<span class="ptag">+${m.products.length-5} more</span>`:'';
+  const logo=m.logoUrl
+    ?`<img class="pu-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'pu-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`
+    :`<div class="pu-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;
+  return `
+    <div class="pu-head">${logo}
+      <div><div class="pu-name">${esc(m.name)}</div>
+      <span class="pu-badge" style="background:${cs.bg};color:${cs.color}">${cs.icon} ${esc(m.category)}</span></div>
+    </div>
+    <div class="pu-body">
+      <div class="pu-lbl">Products &amp; Services</div>
+      <div class="pu-tags">${tags||'<span class="ptag">—</span>'}${more}</div>
+      <div class="pu-meta">
+        <span>📍 ${esc(m.municipality||'—')}</span>
+        ${m.contact?`<span>📞 ${esc(m.contact)}</span>`:''}
+      </div>
+    </div>
+    <div class="pu-foot">
+      <button class="pu-btn" onclick="openDetail('${esc(m.id)}')">View Profile</button>
+      <button class="pu-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️ Edit</button>
+    </div>`;
+}
+
+function placeMarker(m){
+  if(markers[m.id]) return;
+  const mk=L.marker([m.lat,m.lng],{icon:makeIcon(m)});
+  mk.bindTooltip(`<strong>${esc(m.name)}</strong><br>${esc(m.municipality||'')}`,{direction:'top',offset:[0,-20]});
+  mk.bindPopup(buildPopupHTML(m),{maxWidth:265,minWidth:255,closeButton:false});
+  mk.on('click',()=>setActive(m.id));
+  mk.addTo(map);
+  markers[m.id]=mk;
+}
+
+function refreshMarker(m){
+  if(markers[m.id]){
+    map.removeLayer(markers[m.id]);
+    delete markers[m.id];
+  }
+  placeMarker(m);
+  markers[m.id].setIcon(makeIcon(m, m.id===activeId));
+}
+
+function refreshIcons(){
+  allData.forEach(m=>{if(markers[m.id])markers[m.id].setIcon(makeIcon(m,m.id===activeId));});
+}
+
+// ── FILTERS ───────────────────────────────────────────
+function filtered(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  return allData.filter(m=>{
+    const mc=activeFilter==='All'||m.category===activeFilter;
+    const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[])].some(s=>(s||'').toLowerCase().includes(q));
+    return mc&&mq;
+  });
+}
+
+function applyFilters(){
+  const fd=filtered();
+  allData.forEach(m=>{
+    const show=fd.find(f=>f.id===m.id);
+    if(show){placeMarker(m);map.addLayer(markers[m.id]);}
+    else if(markers[m.id]) map.removeLayer(markers[m.id]);
+  });
+  buildList(fd);
+  document.getElementById('h-shown').textContent=fd.length;
+}
+
+// ── CHIPS ─────────────────────────────────────────────
+function buildChips(){
+  const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];
+  const el=document.getElementById('chips'); el.innerHTML='';
+  cats.forEach(cat=>{
+    const cs=cat==='All'?null:catStyle(cat);
+    const ch=document.createElement('div');
+    ch.className='chip'+(cat===activeFilter?' on':'');
+    ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;
+    ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});
+    el.appendChild(ch);
+  });
+}
+
+// ── SIDEBAR LIST ──────────────────────────────────────
+function buildList(data){
+  const el=document.getElementById('msme-list');
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  el.innerHTML='';
+  if(!data.length){el.innerHTML='<div class="no-results">😔 No MSMEs found</div>';return;}
+  const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);
+  data.forEach(m=>{
+    const cs=catStyle(m.category);
+    const card=document.createElement('div');
+    card.className='mcard'+(m.id===activeId?' active':'');
+    card.dataset.id=m.id;
+    const logo=m.logoUrl
+      ?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`
+      :`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;
+    card.innerHTML=`${logo}<div class="mcard-info">
+      <div class="mcard-name">${hi(m.name)}</div>
+      <div class="mcard-cat">${cs.icon} ${esc(m.category)}</div>
+      <div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div>
+      <div class="mcard-prods">${(m.products||[]).length?m.products.slice(0,3).map(p=>hi(p)).join(' · '):'—'}</div>
+    </div>`;
+    card.addEventListener('click',()=>selectMSME(m.id));
+    el.appendChild(card);
+  });
+}
+
+// ── LEGEND ────────────────────────────────────────────
+function buildLegend(){
+  const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];
+  const el=document.getElementById('leg-items'); el.innerHTML='';
+  cats.forEach(cat=>{
+    const cs=catStyle(cat);
+    const item=document.createElement('div'); item.className='leg-item';
+    item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;
+    item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});
+    el.appendChild(item);
+  });
+}
+
+// ── SELECT ────────────────────────────────────────────
+function setActive(id){
+  activeId=id; refreshIcons();
+  document.querySelectorAll('.mcard').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
+  if(id){const c=document.querySelector(`.mcard[data-id="${id}"]`);if(c)c.scrollIntoView({behavior:'smooth',block:'center'});}
+}
+
+function selectMSME(id){
+  const m=allData.find(x=>x.id===id);if(!m)return;
+  setActive(id);
+  map.flyTo([m.lat,m.lng],Math.max(map.getZoom(),14),{duration:1.2});
+  setTimeout(()=>{if(markers[id])markers[id].openPopup();},900);
+}
+
+// ── DETAIL PANEL ──────────────────────────────────────
+function openDetail(id){
+  const m=allData.find(x=>x.id===id);if(!m)return;
+  map.closePopup();
+  const cs=catStyle(m.category);
+  document.getElementById('dh-logo-wrap').innerHTML=m.logoUrl
+    ?`<img class="dh-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'dh-logo-fb\\'>${cs.icon}</div>'">`
+    :`<div class="dh-logo-fb">${cs.icon}</div>`;
+  document.getElementById('dh-title').textContent=m.name;
+  document.getElementById('dh-sub').textContent=`${m.municipality||''} · ${m.category}`;
+
+  document.getElementById('db').innerHTML=`
+    ${m.description?`<div class="ds"><h3>About</h3><p>${esc(m.description)}</p></div>`:''}
+    ${(m.products||[]).length?`
+    <div class="ds">
+      <h3>Products &amp; Services (${m.products.length})</h3>
+      <div class="pgrid">${m.products.map(p=>`<div class="pcard">${cs.icon} ${esc(p)}</div>`).join('')}</div>
+    </div>`:''}
+    <div class="ds">
+      <h3>Business Info</h3>
+      <div class="irow"><span class="ikey">Category</span><span class="ival">${esc(m.category)}</span></div>
+      ${m.municipality?`<div class="irow"><span class="ikey">Municipality</span><span class="ival">${esc(m.municipality)}</span></div>`:''}
+      ${m.contact?`<div class="irow"><span class="ikey">Contact</span><span class="ival">${esc(m.contact)}</span></div>`:''}
+      <div class="irow"><span class="ikey">Coordinates</span><span class="ival">${m.lat.toFixed(5)}, ${m.lng.toFixed(5)}</span></div>
+    </div>
+    <div class="action-row">
+      <button class="edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️ Edit Info</button>
+      ${m.contact?`<button class="copy-btn" onclick="copyTxt('${m.contact.replace(/'/g,"\\'")}','${m.name.replace(/'/g,"\\'")}')">📋 Copy Contact</button>`:''}
+    </div>
+    <button class="del-btn" style="width:100%" onclick="deleteMSME('${esc(m.id)}')">🗑 Remove from Map</button>
+  `;
+  document.getElementById('detail').classList.add('open');
+}
+function closeDetail(){document.getElementById('detail').classList.remove('open');}
+window.openDetail=openDetail; window.closeDetail=closeDetail;
+
+// ── DELETE ────────────────────────────────────────────
+function deleteMSME(id){
+  const m=allData.find(x=>x.id===id); if(!m)return;
+  if(!confirm(`Remove "${m.name}" from the map?\n\nThis can be undone by refreshing the page.`)) return;
+  if(markers[id]){map.removeLayer(markers[id]);delete markers[id];}
+  allData=allData.filter(x=>x.id!==id);
+  closeDetail();
+  buildChips(); buildLegend(); applyFilters(); updateStats();
+  saveToStorage();
+  toast(`🗑 "${m.name}" removed`);
+}
+window.deleteMSME=deleteMSME;
+
+// ── PRODUCT TAG EDITOR ────────────────────────────────
+function renderProductTags(){
+  const wrap=document.getElementById('prod-tags-wrap');
+  wrap.innerHTML='';
+  pendingProducts.forEach((p,i)=>{
+    const tag=document.createElement('div');
+    tag.className='prod-tag-item';
+    tag.innerHTML=`${esc(p)}<button class="prod-tag-remove" onclick="removeProductTag(${i})">✕</button>`;
+    wrap.appendChild(tag);
+  });
+}
+
+function addProductTag(){
+  const inp=document.getElementById('prod-input');
+  const val=inp.value.trim();
+  if(!val) return;
+  // Allow comma-separated input too
+  val.split(',').map(v=>v.trim()).filter(Boolean).forEach(v=>{
+    if(!pendingProducts.includes(v)) pendingProducts.push(v);
+  });
+  inp.value='';
+  renderProductTags();
+  inp.focus();
+}
+
+function removeProductTag(i){
+  pendingProducts.splice(i,1);
+  renderProductTags();
+}
+window.removeProductTag=removeProductTag;
+
+// Enter key adds product
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && document.activeElement.id==='prod-input'){
+    e.preventDefault(); addProductTag();
+  }
+});
+
+// ── MODAL (ADD / EDIT) ────────────────────────────────
+function openModal(){
+  modalMode='add'; editingId=null;
+  pendingProducts=[];
+  document.getElementById('modal-title').textContent='➕ Add New MSME';
+  document.getElementById('modal-save-btn').textContent='Add to Map';
+  ['f-name','f-desc','f-lat','f-lng','f-contact','f-logo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-cat').value='Food';
+  document.getElementById('f-muni').value='Koronadal City';
+  renderProductTags();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function openEditModal(id){
+  const m=allData.find(x=>x.id===id); if(!m)return;
+  modalMode='edit'; editingId=id;
+  pendingProducts=[...(m.products||[])];
+  document.getElementById('modal-title').textContent='✏️ Edit MSME';
+  document.getElementById('modal-save-btn').textContent='Save Changes';
+  document.getElementById('f-name').value=m.name||'';
+  document.getElementById('f-cat').value=m.category||'Food';
+  document.getElementById('f-muni').value=m.municipality||'Koronadal City';
+  document.getElementById('f-desc').value=m.description||'';
+  document.getElementById('f-lat').value=m.lat||'';
+  document.getElementById('f-lng').value=m.lng||'';
+  document.getElementById('f-contact').value=m.contact||'';
+  document.getElementById('f-logo').value=m.logoUrl||'';
+  renderProductTags();
+  map.closePopup();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+window.openEditModal=openEditModal;
+
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+window.openModal=openModal; window.closeModal=closeModal;
+
+function saveMSME(){
+  const name    = document.getElementById('f-name').value.trim();
+  const cat     = document.getElementById('f-cat').value;
+  const muni    = document.getElementById('f-muni').value;
+  const desc    = document.getElementById('f-desc').value.trim();
+  const lat     = parseFloat(document.getElementById('f-lat').value);
+  const lng     = parseFloat(document.getElementById('f-lng').value);
+  const contact = document.getElementById('f-contact').value.trim();
+  const logoUrl = document.getElementById('f-logo').value.trim();
+
+  if(!name){alert('Please enter a business name.');return;}
+  if(isNaN(lat)||isNaN(lng)){alert('Please enter valid Latitude and Longitude.\n\nTip: Right-click any spot on Google Maps → copy the two numbers shown at the top of the menu.\nFirst number = Latitude, Second = Longitude.');return;}
+
+  if(modalMode==='edit'){
+    // Update existing
+    const idx=allData.findIndex(x=>x.id===editingId);
+    if(idx<0) return;
+    const updated={...allData[idx], name, category:cat, municipality:muni, products:[...pendingProducts], description:desc, lat, lng, contact, logoUrl};
+    allData[idx]=updated;
+    refreshMarker(updated);
+    buildChips(); buildLegend(); applyFilters(); updateStats();
+    saveToStorage();
+    closeModal();
+    // Refresh detail panel if open
+    if(document.getElementById('detail').classList.contains('open')) openDetail(editingId);
+    toast(`✅ "${name}" updated successfully`);
+
+  } else {
+    // Add new
+    const newId=String(Date.now());
+    const entry={id:newId, name, category:cat, municipality:muni, products:[...pendingProducts], description:desc, lat, lng, contact, logoUrl};
+    allData.push(entry);
+    buildChips(); buildLegend(); applyFilters(); updateStats();
+    placeMarker(entry);
+    map.flyTo([lat,lng],14,{duration:1});
+    setTimeout(()=>{if(markers[newId])markers[newId].openPopup();},800);
+    saveToStorage();
+    closeModal();
+    toast(`✅ "${name}" added to the map!`);
+  }
+}
+window.saveMSME=saveMSME;
+
+// ── UTILS ─────────────────────────────────────────────
+function copyTxt(t,n){navigator.clipboard.writeText(t).catch(()=>{});toast(`📋 Copied ${n}'s contact`);}
+window.copyTxt=copyTxt;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+
+// ── START ─────────────────────────────────────────────
+document.getElementById('search').addEventListener('input',applyFilters);
+initMap();
+initData();
+</script>
+</body>
+</html>
