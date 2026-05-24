@@ -20,7 +20,7 @@
 }
 html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg)}
 
-/* Header */
+/* ── Header ── */
 #header{position:fixed;top:0;left:0;right:0;height:56px;z-index:1100;background:var(--green);border-bottom:3px solid var(--gold);display:flex;align-items:center;padding:0 16px;gap:10px}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-box{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
@@ -36,10 +36,8 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .hbtn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600}
 .hbtn.gold:hover{background:var(--gold-light)}
 
-/* App */
+/* ── Layout ── */
 #app{display:flex;height:100%;padding-top:56px}
-
-/* Sidebar */
 #sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;z-index:900}
 #sidebar-top{padding:12px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
 .search-box{position:relative}
@@ -65,7 +63,7 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .no-results{text-align:center;padding:2.5rem 1rem;color:var(--ink3);font-size:13px}
 #sidebar-foot{padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--ink3);text-align:center}
 
-/* Directions panel */
+/* ── Directions panel ── */
 #dir-panel{width:0;flex-shrink:0;overflow:hidden;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:890;transition:width .32s cubic-bezier(.4,0,.2,1);box-shadow:3px 0 16px rgba(0,0,0,.07)}
 #dir-panel.open{width:var(--dir-w)}
 #dir-inner{width:var(--dir-w);display:flex;flex-direction:column;height:100%}
@@ -96,7 +94,6 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .dir-steps{flex:1;overflow-y:auto;padding:6px}
 .step-item{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-radius:8px;margin-bottom:2px;transition:background .15s}
 .step-item.current{background:var(--blue-pale);border-left:3px solid var(--blue)}
-.step-item:hover{background:var(--bg)}
 .step-icon{width:26px;height:26px;border-radius:50%;background:var(--blue-pale);border:1px solid #c5d8ea;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px}
 .step-icon.active-step{background:var(--blue);color:#fff;border-color:var(--blue)}
 .step-body{flex:1;min-width:0}
@@ -105,103 +102,59 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .dir-status{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:2rem 1rem;color:var(--ink3);font-size:13px;text-align:center;flex:1}
 .dir-spinner{width:26px;height:26px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* Start / Stop nav button */
 .dir-footer{padding:10px 12px;border-top:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;gap:7px}
 .start-nav-btn{width:100%;padding:11px;border-radius:10px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
 .start-nav-btn:hover{background:var(--green2)}
 .start-nav-btn.navigating{background:#b83030}
-.start-nav-btn.navigating:hover{background:#d04040}
-.gmaps-btn{width:100%;padding:9px;border-radius:9px;border:1px solid var(--border);background:var(--bg);color:var(--ink2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:all .15s}
-.gmaps-btn:hover{background:var(--green-pale);color:var(--green);border-color:var(--green-border)}
+.gmaps-btn-link{width:100%;padding:9px;border-radius:9px;border:1px solid var(--border);background:var(--bg);color:var(--ink2);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:all .15s}
+.gmaps-btn-link:hover{background:var(--green-pale);color:var(--green);border-color:var(--green-border)}
 
-/* ── GPS NAVIGATION OVERLAY ── */
-#nav-overlay{
-  display:none;position:fixed;inset:0;z-index:3000;
-  flex-direction:column;pointer-events:none;
-}
+/* ── Navigation Overlay ── */
+#nav-overlay{display:none;position:fixed;inset:0;z-index:3000;flex-direction:column;pointer-events:none}
 #nav-overlay.active{display:flex}
-
-/* Top instruction card */
-#nav-instruction{
-  position:absolute;top:0;left:0;right:0;
-  background:var(--nav);color:#fff;
-  padding:14px 16px 12px;
-  display:flex;align-items:center;gap:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,.35);
-  pointer-events:all;
-  border-bottom:3px solid var(--gold);
-  animation:slideDown .3s ease;
-}
+#nav-instruction{position:absolute;top:0;left:0;right:0;background:var(--nav);color:#fff;padding:14px 16px 12px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.35);pointer-events:all;border-bottom:3px solid var(--gold);animation:slideDown .3s ease}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
-#nav-turn-icon{
-  width:56px;height:56px;border-radius:12px;
-  background:rgba(255,255,255,.12);
-  display:flex;align-items:center;justify-content:center;
-  font-size:30px;flex-shrink:0;
-}
+#nav-turn-icon{width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
 #nav-instruction-text{flex:1;min-width:0}
 #nav-next-dist{font-size:28px;font-weight:700;color:var(--gold-light);line-height:1}
 #nav-next-step{font-size:14px;opacity:.9;margin-top:4px;line-height:1.3}
 #nav-after-step{font-size:11px;opacity:.55;margin-top:3px}
-
-/* Bottom nav bar */
-#nav-bottom{
-  position:absolute;bottom:0;left:0;right:0;
-  background:var(--nav);color:#fff;
-  padding:12px 16px;
-  display:flex;align-items:center;gap:16px;
-  box-shadow:0 -4px 20px rgba(0,0,0,.35);
-  pointer-events:all;
-  animation:slideUp .3s ease;
-}
+#nav-bottom{position:absolute;bottom:0;left:0;right:0;background:var(--nav);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:16px;box-shadow:0 -4px 20px rgba(0,0,0,.35);pointer-events:all;animation:slideUp .3s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .nav-stat{text-align:center}
 .nav-stat-val{font-size:22px;font-weight:700;color:var(--gold-light);line-height:1}
 .nav-stat-label{font-size:10px;opacity:.6;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
 .nav-sep{width:1px;height:36px;background:rgba(255,255,255,.15)}
 #nav-dest-name{flex:1;font-size:13px;opacity:.8;text-align:center;font-weight:500}
-.nav-stop-btn{padding:10px 18px;border-radius:9px;border:none;background:#b83030;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;flex-shrink:0}
-.nav-stop-btn:hover{background:#d04040}
-
-/* Arrived banner */
-#nav-arrived{
-  display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:var(--green);color:#fff;border-radius:16px;
-  padding:24px 32px;text-align:center;z-index:4000;
-  box-shadow:0 12px 40px rgba(0,0,0,.3);
-  animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);
-}
+.nav-stop-btn{padding:10px 18px;border-radius:9px;border:none;background:#b83030;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+#nav-arrived{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--green);color:#fff;border-radius:16px;padding:24px 32px;text-align:center;z-index:4000;box-shadow:0 12px 40px rgba(0,0,0,.3);animation:popIn .4s cubic-bezier(.175,.885,.32,1.275)}
 @keyframes popIn{from{transform:translate(-50%,-50%) scale(.7);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
 #nav-arrived h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:8px}
 #nav-arrived p{font-size:14px;opacity:.85;margin-bottom:16px}
 #nav-arrived button{padding:10px 24px;border-radius:9px;border:none;background:#fff;color:var(--green);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
-
-/* User GPS dot */
-.gps-dot-outer{
-  width:20px;height:20px;border-radius:50%;
-  background:rgba(26,92,139,.25);
-  display:flex;align-items:center;justify-content:center;
-  animation:gpsPulse 2s ease-in-out infinite;
-}
+.gps-dot-outer{width:20px;height:20px;border-radius:50%;background:rgba(26,92,139,.25);display:flex;align-items:center;justify-content:center;animation:gpsPulse 2s ease-in-out infinite}
 @keyframes gpsPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
 .gps-dot-inner{width:12px;height:12px;border-radius:50%;background:#1A5C8B;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 
-/* Map */
+/* ── Map ── */
 #map{flex:1;z-index:1;min-width:0}
 
-/* Popup */
+/* ── Popup ── */
 .leaflet-popup-content-wrapper{border-radius:14px!important;padding:0!important;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.18)!important;border:1px solid var(--border)}
-.leaflet-popup-content{margin:0!important;width:255px!important;font-family:'DM Sans',sans-serif}
+.leaflet-popup-content{margin:0!important;width:270px!important;font-family:'DM Sans',sans-serif}
 .pu-head{padding:12px 14px 10px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
-.pu-logo{width:40px;height:40px;border-radius:9px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;background:var(--bg)}
-.pu-logo-fb{width:40px;height:40px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid var(--border)}
+.pu-logo{width:42px;height:42px;border-radius:9px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;background:var(--bg)}
+.pu-logo-fb{width:42px;height:42px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid var(--border)}
 .pu-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
 .pu-badge{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase}
 .pu-body{padding:10px 14px}
-.pu-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:5px}
-.pu-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
-.ptag{padding:3px 8px;background:var(--bg);border:1px solid var(--border);border-radius:5px;font-size:11px;color:var(--ink2)}
+.pu-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:8px}
+/* Product photo grid in popup */
+.pu-prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.pu-prod-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.pu-prod-img{width:100%;aspect-ratio:1;border-radius:8px;object-fit:cover;border:1px solid var(--border);background:var(--bg)}
+.pu-prod-img-fb{width:100%;aspect-ratio:1;border-radius:8px;background:var(--green-pale);border:1px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:20px}
+.pu-prod-name{font-size:10px;color:var(--ink2);text-align:center;line-height:1.3;font-weight:500;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pu-meta{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--ink3)}
 .pu-foot{padding:8px 14px;background:var(--bg);border-top:1px solid var(--border);display:flex;gap:5px}
 .pu-btn{flex:1;padding:7px 4px;border-radius:8px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer}
@@ -214,25 +167,45 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .leaflet-tooltip-left::before{border-left-color:var(--ink)!important}
 .leaflet-tooltip-right::before{border-right-color:var(--ink)!important}
 
-/* Detail panel */
-#detail{position:fixed;right:0;top:56px;bottom:0;width:320px;background:var(--surface);border-left:1px solid var(--border);z-index:1000;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;box-shadow:-4px 0 20px rgba(0,0,0,.08)}
+/* ── Detail Panel ── */
+#detail{position:fixed;right:0;top:56px;bottom:0;width:360px;background:var(--surface);border-left:1px solid var(--border);z-index:1000;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;box-shadow:-4px 0 20px rgba(0,0,0,.08)}
 #detail.open{transform:translateX(0)}
 .dh{background:var(--green);padding:14px;display:flex;align-items:flex-start;gap:10px;color:#fff;position:relative}
-.dh-logo{width:48px;height:48px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,.3);flex-shrink:0}
-.dh-logo-fb{width:48px;height:48px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.15)}
-.dh-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;line-height:1.3}
+.dh-logo{width:52px;height:52px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,.3);flex-shrink:0}
+.dh-logo-fb{width:52px;height:52px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:rgba(255,255,255,.15)}
+.dh-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;line-height:1.3}
 .dh-sub{font-size:11px;opacity:.75;margin-top:2px}
 .dh-close{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
 .dh-close:hover{background:rgba(255,255,255,.28)}
-.db{padding:14px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
-.ds h3{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:8px}
+.db{padding:14px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:16px}
+.ds h3{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:10px}
 .ds p{font-size:12px;color:var(--ink2);line-height:1.65}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.pcard{background:var(--green-pale);border:1px solid var(--green-border);border-radius:8px;padding:7px 9px;font-size:11px;color:var(--green);font-weight:600}
+
+/* Full product gallery in detail */
+.prod-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.prod-gallery-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+.prod-gallery-img{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:var(--bg)}
+.prod-gallery-img-fb{width:100%;aspect-ratio:1;border-radius:10px;background:var(--green-pale);border:1px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:28px}
+.prod-gallery-name{font-size:11px;color:var(--ink);text-align:center;line-height:1.3;font-weight:600;width:100%}
+
+/* Business info rows */
 .irow{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
 .irow:last-child{border:none}
-.ikey{color:var(--ink3)}
-.ival{font-weight:600;color:var(--ink);text-align:right;max-width:180px;word-break:break-word}
+.ikey{color:var(--ink3);flex-shrink:0;margin-right:8px}
+.ival{font-weight:600;color:var(--ink);text-align:right;word-break:break-word}
+
+/* Certifications section */
+.cert-list{display:flex;flex-direction:column;gap:8px}
+.cert-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:10px}
+.cert-badge{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.cert-body{flex:1;min-width:0}
+.cert-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3}
+.cert-status{display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.cert-status.registered{background:#E8F5EE;color:var(--green)}
+.cert-num{font-size:11px;color:var(--ink3);margin-top:3px}
+.cert-none{font-size:12px;color:var(--ink3);font-style:italic;text-align:center;padding:1rem 0}
+
+/* Action buttons */
 .action-row{display:flex;gap:7px}
 .d-dir-btn{flex:2;padding:10px;border-radius:9px;border:none;background:var(--blue);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
 .d-dir-btn:hover{background:var(--blue2)}
@@ -243,7 +216,7 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .d-del-btn{width:100%;padding:10px;border-radius:9px;border:1.5px solid var(--red-pale);background:var(--red-pale);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--red)}
 .d-del-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
 
-/* Legend */
+/* ── Legend ── */
 #legend{position:fixed;bottom:20px;left:calc(var(--sidebar-w) + 8px);z-index:800;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,.10);max-height:calc(100vh - 120px);overflow-y:auto;transition:left .32s cubic-bezier(.4,0,.2,1)}
 #legend.shifted{left:calc(var(--sidebar-w) + var(--dir-w) + 8px)}
 .leg-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:8px}
@@ -251,7 +224,7 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 .leg-item:hover{color:var(--green)}
 .ldot{width:12px;height:12px;border-radius:50%;flex-shrink:0;border:2px solid rgba(0,0,0,.1)}
 
-/* Loading */
+/* ── Loading / Saving ── */
 #loading{position:fixed;inset:0;z-index:9999;background:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#fff}
 #loading h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
 #loading p{font-size:13px;opacity:.75}
@@ -259,34 +232,50 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 #saving-bar{position:fixed;top:56px;left:0;right:0;height:3px;background:var(--gold);z-index:1200;transform:scaleX(0);transform-origin:left;transition:transform .4s}
 #saving-bar.active{transform:scaleX(1)}
 
-/* Modal */
+/* ── Modal ── */
 #modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem}
 #modal-overlay.open{display:flex}
-#modal{background:#fff;border-radius:16px;width:520px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column}
-.modal-head{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+#modal{background:#fff;border-radius:16px;width:580px;max-width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.modal-head{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;background:#fff;z-index:1}
 .modal-head h2{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink)}
 .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink3);line-height:1}
-.modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+.modal-section{display:flex;flex-direction:column;gap:10px}
+.modal-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);padding-bottom:6px;border-bottom:1px solid var(--border)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-group label{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em}
 .form-group input,.form-group select,.form-group textarea{padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--bg);transition:border-color .2s}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--green)}
 .form-group textarea{resize:vertical;min-height:72px}
 .form-hint{font-size:10px;color:var(--ink3);margin-top:2px;line-height:1.4}
-.prod-editor{display:flex;flex-direction:column;gap:6px}
-.prod-tags-wrap{display:flex;flex-wrap:wrap;gap:5px;min-height:36px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);cursor:text}
-.prod-tags-wrap:focus-within{border-color:var(--green)}
-.prod-tag-item{display:flex;align-items:center;gap:4px;background:var(--green-pale);border:1px solid var(--green-border);border-radius:20px;padding:3px 8px;font-size:12px;color:var(--green);font-weight:500}
-.prod-tag-remove{background:none;border:none;cursor:pointer;color:var(--green);font-size:13px;line-height:1;padding:0;opacity:.7}
-.prod-tag-remove:hover{opacity:1}
-.prod-input-row{display:flex;gap:6px}
-.prod-input-row input{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--bg)}
-.prod-input-row input:focus{outline:none;border-color:var(--green)}
-.prod-add-btn{padding:7px 14px;border-radius:8px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer}
+/* Product editor with photo support */
+.prod-editor-list{display:flex;flex-direction:column;gap:8px}
+.prod-editor-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
+.prod-editor-img{width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.prod-editor-img-fb{width:36px;height:36px;border-radius:6px;background:var(--green-pale);border:1px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.prod-editor-fields{flex:1;min-width:0;display:flex;gap:6px}
+.prod-editor-fields input{flex:1;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--ink);background:var(--surface)}
+.prod-editor-fields input:focus{outline:none;border-color:var(--green)}
+.prod-editor-fields input.url-input{font-size:11px;color:var(--ink3)}
+.prod-remove-btn{background:none;border:none;cursor:pointer;color:var(--ink3);font-size:16px;padding:2px;flex-shrink:0}
+.prod-remove-btn:hover{color:var(--red)}
+.add-prod-btn{padding:8px 12px;border-radius:8px;border:1.5px dashed var(--green-border);background:var(--green-pale);color:var(--green);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;width:100%;transition:all .15s}
+.add-prod-btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
+/* Popup indicator for featured products */
+.featured-star{color:var(--gold);font-size:11px;cursor:help}
+.featured-toggle{padding:3px 7px;border-radius:20px;font-size:10px;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--ink3);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.featured-toggle.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* Cert fields */
+.cert-field-row{display:flex;align-items:center;gap:8px}
+.cert-toggle{width:36px;height:20px;border-radius:20px;background:var(--border);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:none}
+.cert-toggle.on{background:var(--green)}
+.cert-toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.cert-toggle.on::after{left:18px}
 .loc-hint{font-size:11px;color:var(--ink3);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;line-height:1.5}
 .loc-hint a{color:var(--green);text-decoration:none;font-weight:600}
-.modal-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
+.modal-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;position:sticky;bottom:0;background:#fff}
 .btn-cancel{padding:9px 18px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--ink2)}
 .btn-save{padding:9px 22px;border-radius:8px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
 .btn-save:hover{background:var(--green2)}
@@ -303,17 +292,16 @@ mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
 </head>
 <body>
 
-<!-- Loading -->
 <div id="loading"><div class="spinner"></div><h2>South Cotabato MSME Map</h2><p id="load-msg">Loading…</p></div>
 <div id="saving-bar"></div>
 
-<!-- GPS Navigation Overlay -->
+<!-- GPS Nav Overlay -->
 <div id="nav-overlay">
   <div id="nav-instruction">
     <div id="nav-turn-icon">↑</div>
     <div id="nav-instruction-text">
       <div id="nav-next-dist">—</div>
-      <div id="nav-next-step">Calculating route…</div>
+      <div id="nav-next-step">Calculating…</div>
       <div id="nav-after-step"></div>
     </div>
   </div>
@@ -326,20 +314,11 @@ mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
     <button class="nav-stop-btn" onclick="stopNavigation()">■ Stop</button>
   </div>
 </div>
-
-<!-- Arrived banner -->
-<div id="nav-arrived">
-  <h2>🎉 You have arrived!</h2>
-  <p id="nav-arrived-name">You reached your destination.</p>
-  <button onclick="stopNavigation()">Done</button>
-</div>
+<div id="nav-arrived"><h2>🎉 You have arrived!</h2><p id="nav-arrived-name">Welcome!</p><button onclick="stopNavigation()">Done</button></div>
 
 <!-- Header -->
 <div id="header">
-  <div class="logo">
-    <div class="logo-box">🌿</div>
-    <div class="logo-text"><h1>South Cotabato MSME Map</h1><span>Micro, Small &amp; Medium Enterprise Directory</span></div>
-  </div>
+  <div class="logo"><div class="logo-box">🌿</div><div class="logo-text"><h1>South Cotabato MSME Map</h1><span>Micro, Small &amp; Medium Enterprise Directory</span></div></div>
   <div class="spacer"></div>
   <div class="hstat"><b id="h-total">—</b><small>Total MSMEs</small></div>
   <div class="hsep"></div>
@@ -352,7 +331,7 @@ mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
 </div>
 
 <div id="app">
-  <!-- Always-visible sidebar -->
+  <!-- Sidebar -->
   <div id="sidebar">
     <div id="sidebar-top">
       <div class="search-box"><span class="si">🔍</span><input type="text" id="search" placeholder="Search MSME, product, location…"></div>
@@ -371,36 +350,20 @@ mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
         <button class="dir-close-btn" onclick="closeDirections()">✕</button>
       </div>
       <div class="dir-from-to">
-        <div class="dir-point">
-          <div class="dir-dot from"></div>
-          <div class="dir-point-wrap"><div class="dir-point-label">From</div><div class="dir-point-val" id="dir-from-label">Getting location…</div></div>
-        </div>
+        <div class="dir-point"><div class="dir-dot from"></div><div class="dir-point-wrap"><div class="dir-point-label">From</div><div class="dir-point-val" id="dir-from-label">Getting location…</div></div></div>
         <div class="dir-line-connector"></div>
-        <div class="dir-point">
-          <div class="dir-dot to"></div>
-          <div class="dir-point-wrap"><div class="dir-point-label">To</div><div class="dir-point-val" id="dir-to-label">—</div></div>
-        </div>
+        <div class="dir-point"><div class="dir-dot to"></div><div class="dir-point-wrap"><div class="dir-point-label">To</div><div class="dir-point-val" id="dir-to-label">—</div></div></div>
       </div>
       <div class="dir-mode-row">
         <button class="mode-btn active" id="mode-car" onclick="setMode('car')"><span class="mode-icon">🚗</span>Drive</button>
         <button class="mode-btn" id="mode-bike" onclick="setMode('bike')"><span class="mode-icon">🚲</span>Bike</button>
         <button class="mode-btn" id="mode-walk" onclick="setMode('walk')"><span class="mode-icon">🚶</span>Walk</button>
       </div>
-      <div id="dir-summary" class="dir-summary">
-        <div class="dir-summary-row">
-          <span class="dir-dist-big" id="dir-dist">—</span>
-          <span class="dir-time-big" id="dir-time">—</span>
-        </div>
-      </div>
-      <div id="dir-steps" class="dir-steps">
-        <div class="dir-status"><div class="dir-spinner"></div><span>Waiting…</span></div>
-      </div>
+      <div id="dir-summary" class="dir-summary"><div class="dir-summary-row"><span class="dir-dist-big" id="dir-dist">—</span><span class="dir-time-big" id="dir-time">—</span></div></div>
+      <div id="dir-steps" class="dir-steps"><div class="dir-status"><div class="dir-spinner"></div><span>Waiting…</span></div></div>
       <div class="dir-footer">
-        <button class="start-nav-btn" id="start-nav-btn" onclick="toggleNavigation()" style="display:none">
-          <span id="start-nav-icon">🚗</span>
-          <span id="start-nav-text">Start Navigation</span>
-        </button>
-        <a id="gmaps-btn" class="gmaps-btn" href="#" target="_blank">🗺 Open in Google Maps</a>
+        <button class="start-nav-btn" id="start-nav-btn" onclick="toggleNavigation()" style="display:none"><span id="start-nav-icon">🚗</span><span id="start-nav-text">Start Navigation</span></button>
+        <a id="gmaps-btn" class="gmaps-btn-link" href="#" target="_blank">🗺 Open in Google Maps</a>
       </div>
     </div>
   </div>
@@ -410,43 +373,89 @@ mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
 
 <div id="legend"><div class="leg-title">Categories</div><div id="leg-items"></div></div>
 
-<!-- Detail panel -->
+<!-- Detail Panel -->
 <div id="detail">
-  <div class="dh">
-    <div id="dh-logo-wrap"></div>
-    <div style="flex:1;min-width:0"><div class="dh-title" id="dh-title"></div><div class="dh-sub" id="dh-sub"></div></div>
-    <button class="dh-close" onclick="closeDetail()">✕</button>
-  </div>
+  <div class="dh"><div id="dh-logo-wrap"></div><div style="flex:1;min-width:0"><div class="dh-title" id="dh-title"></div><div class="dh-sub" id="dh-sub"></div></div><button class="dh-close" onclick="closeDetail()">✕</button></div>
   <div class="db" id="db"></div>
 </div>
 
-<!-- Modal -->
+<!-- Add/Edit Modal -->
 <div id="modal-overlay">
   <div id="modal">
     <div class="modal-head"><h2 id="modal-title">➕ Add New MSME</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>Business Name *</label><input type="text" id="f-name" placeholder="e.g. Juan's Bakery"></div>
-      <div class="form-row">
-        <div class="form-group"><label>Category *</label><select id="f-cat"><option>Food</option><option>Agriculture</option><option>Tourism</option><option>Handicrafts</option><option>Garments</option><option>Personal Care</option><option>Construction</option><option>Retail</option><option>Services</option><option>Health</option><option>Technology</option><option>Other</option></select></div>
-        <div class="form-group"><label>Municipality *</label><select id="f-muni"><option>Koronadal City</option><option>Banga</option><option>Lake Sebu</option><option>Norala</option><option>Polomolok</option><option>Santo Niño</option><option>Senator Ninoy Aquino</option><option>Surallah</option><option>T'Boli</option><option>Tampakan</option><option>Tantangan</option><option>Tupi</option></select></div>
-      </div>
-      <div class="form-group">
-        <label>Products / Services *</label>
-        <div class="prod-editor">
-          <div class="prod-tags-wrap" id="prod-tags-wrap" onclick="document.getElementById('prod-input').focus()"></div>
-          <div class="prod-input-row"><input type="text" id="prod-input" placeholder="Type a product and press Add or Enter…"><button class="prod-add-btn" onclick="addProductTag()">＋ Add</button></div>
+
+      <!-- Basic Info -->
+      <div class="modal-section">
+        <div class="modal-section-title">Basic Information</div>
+        <div class="form-group"><label>Business Name *</label><input type="text" id="f-name" placeholder="e.g. Juan's Bakery"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category *</label><select id="f-cat"><option>Food</option><option>Agriculture</option><option>Tourism</option><option>Handicrafts</option><option>Garments</option><option>Personal Care</option><option>Construction</option><option>Retail</option><option>Services</option><option>Health</option><option>Technology</option><option>Other</option></select></div>
+          <div class="form-group"><label>Municipality *</label><select id="f-muni"><option>Koronadal City</option><option>Banga</option><option>Lake Sebu</option><option>Norala</option><option>Polomolok</option><option>Santo Niño</option><option>Senator Ninoy Aquino</option><option>Surallah</option><option>T'Boli</option><option>Tampakan</option><option>Tantangan</option><option>Tupi</option></select></div>
         </div>
-        <span class="form-hint">Add one at a time. Click ✕ to remove.</span>
+        <div class="form-group"><label>Description</label><textarea id="f-desc" placeholder="Brief description of the business…"></textarea></div>
+        <div class="form-group"><label>📍 Location *</label><div class="loc-hint">Open <a href="https://maps.google.com" target="_blank">Google Maps</a> → right-click location → copy the two numbers. First = Latitude, Second = Longitude.</div></div>
+        <div class="form-row">
+          <div class="form-group"><label>Latitude *</label><input type="number" id="f-lat" placeholder="e.g. 6.5277" step="any"></div>
+          <div class="form-group"><label>Longitude *</label><input type="number" id="f-lng" placeholder="e.g. 124.8040" step="any"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Contact Info</label><input type="text" id="f-contact" placeholder="e.g. 09171234567"></div>
+          <div class="form-group"><label>Business Logo URL</label><input type="text" id="f-logo" placeholder="https://i.imgur.com/…"><span class="form-hint">Use Imgur direct link (i.imgur.com/…)</span></div>
+        </div>
       </div>
-      <div class="form-group"><label>Description</label><textarea id="f-desc" placeholder="Brief description…"></textarea></div>
-      <div class="form-group"><label>📍 Location *</label><div class="loc-hint">Open <a href="https://maps.google.com" target="_blank">Google Maps</a> → right-click location → copy the two numbers. First = Latitude, Second = Longitude.</div></div>
-      <div class="form-row">
-        <div class="form-group"><label>Latitude *</label><input type="number" id="f-lat" placeholder="e.g. 6.5277" step="any"></div>
-        <div class="form-group"><label>Longitude *</label><input type="number" id="f-lng" placeholder="e.g. 124.8040" step="any"></div>
+
+      <!-- Products -->
+      <div class="modal-section">
+        <div class="modal-section-title">Products &amp; Services <span style="font-weight:400;font-size:10px;text-transform:none;letter-spacing:0">(★ marks shown in popup — max 3 featured)</span></div>
+        <div class="prod-editor-list" id="prod-editor-list"></div>
+        <button class="add-prod-btn" onclick="addProductRow()">＋ Add Product / Service</button>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>Contact Info</label><input type="text" id="f-contact" placeholder="e.g. 09171234567"></div>
-        <div class="form-group"><label>Logo URL</label><input type="text" id="f-logo" placeholder="https://i.imgur.com/…"><span class="form-hint">Use Imgur direct link</span></div>
+
+      <!-- Certifications -->
+      <div class="modal-section">
+        <div class="modal-section-title">Business Certifications</div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px">
+            <button class="cert-toggle" id="cert-dti-toggle" onclick="toggleCert('dti')"></button>
+            🏛 DTI Certificate
+          </label>
+          <input type="text" id="cert-dti-num" placeholder="DTI Business Name Reg. No." style="display:none;margin-top:6px">
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px">
+            <button class="cert-toggle" id="cert-mayors-toggle" onclick="toggleCert('mayors')"></button>
+            🏢 Mayor's Permit
+          </label>
+          <input type="text" id="cert-mayors-num" placeholder="Business Permit No." style="display:none;margin-top:6px">
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px">
+            <button class="cert-toggle" id="cert-bir-toggle" onclick="toggleCert('bir')"></button>
+            📋 BIR Certificate of Registration (COR)
+          </label>
+          <input type="text" id="cert-bir-num" placeholder="COR No." style="display:none;margin-top:6px">
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px">
+            <button class="cert-toggle" id="cert-fda-lto-toggle" onclick="toggleCert('fda-lto')"></button>
+            🧪 FDA License to Operate (LTO)
+          </label>
+          <input type="text" id="cert-fda-lto-num" placeholder="FDA LTO No." style="display:none;margin-top:6px">
+        </div>
+
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px">
+            <button class="cert-toggle" id="cert-fda-cpr-toggle" onclick="toggleCert('fda-cpr')"></button>
+            🧪 FDA Certificate of Product Registration (CPR)
+          </label>
+          <input type="text" id="cert-fda-cpr-num" placeholder="FDA CPR No." style="display:none;margin-top:6px">
+        </div>
+
       </div>
     </div>
     <div class="modal-foot"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button class="btn-save" id="modal-save-btn" onclick="saveMSME()"><span id="save-btn-text">Add to Map</span></button></div>
@@ -465,12 +474,25 @@ const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 const JBIN_HEADERS = {'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'};
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI2ZmVmMzIxYTYzMjQ0M2Q5MzU3Y2NlODcxMDU1MzNhIiwiaCI6Im11cm11cjY0In0=';
 const ORS_PROFILES = {car:'driving-car',bike:'cycling-regular',walk:'foot-walking'};
-const ARRIVE_RADIUS = 50; // metres — triggers arrival
+const ARRIVE_RADIUS = 50;
 
+// Seed with updated product structure
 const SEED_DATA=[
-  {id:'1',name:'G Farm',category:'Food',municipality:'Tantangan',products:['Curd'],description:'A local farm-based food producer in Tantangan.',lat:6.527680863,lng:124.8040981,contact:'',logoUrl:''},
-  {id:'2',name:'Mommy Mels',category:'Food',municipality:'Koronadal City',products:['Tart'],description:'Home-based food business known for delicious tarts.',lat:6.507293209,lng:124.8363237,contact:'',logoUrl:''},
-  {id:'3',name:'SG Farm',category:'Tourism',municipality:'Tupi',products:['Tourist Spot'],description:'A scenic farm destination in Tupi, South Cotabato.',lat:6.3326,lng:124.9977,contact:'',logoUrl:''},
+  {id:'1',name:'G Farm',category:'Food',municipality:'Tantangan',
+   products:[{name:'Curd',photoUrl:'',featured:true}],
+   description:'A local farm-based food producer in Tantangan.',
+   lat:6.527680863,lng:124.8040981,contact:'',logoUrl:'',
+   certs:{dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}}},
+  {id:'2',name:'Mommy Mels',category:'Food',municipality:'Koronadal City',
+   products:[{name:'Tart',photoUrl:'',featured:true}],
+   description:'Home-based food business known for delicious tarts.',
+   lat:6.507293209,lng:124.8363237,contact:'',logoUrl:'',
+   certs:{dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}}},
+  {id:'3',name:'SG Farm',category:'Tourism',municipality:'Tupi',
+   products:[{name:'Tourist Spot',photoUrl:'',featured:true}],
+   description:'A scenic farm destination in Tupi, South Cotabato.',
+   lat:6.3326,lng:124.9977,contact:'',logoUrl:'',
+   certs:{dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}}},
 ];
 
 const CAT_STYLES={
@@ -483,22 +505,30 @@ const CAT_STYLES={
 };
 const FB=['#1A6B3C','#9C6B0A','#2D7A1F','#6B3A8B','#B83060','#5A5A5A','#1A5C8B','#7A5500','#1A7A7A'];
 let dynCats={},dynIdx=0;
-function catStyle(cat){
-  const k=(cat||'other').toLowerCase().trim();
-  if(CAT_STYLES[k])return CAT_STYLES[k];
-  if(!dynCats[k]){dynCats[k]={color:FB[dynIdx%FB.length],bg:'#F5F5F5',icon:'🏪'};dynIdx++;}
-  return dynCats[k];
-}
+function catStyle(cat){const k=(cat||'other').toLowerCase().trim();if(CAT_STYLES[k])return CAT_STYLES[k];if(!dynCats[k]){dynCats[k]={color:FB[dynIdx%FB.length],bg:'#F5F5F5',icon:'🏪'};dynIdx++;}return dynCats[k];}
 
 // ═══════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════
 let allData=[],markers={},activeFilter='All',activeId=null,map;
-let modalMode='add',editingId=null,pendingProducts=[],isSaving=false;
+let modalMode='add',editingId=null,isSaving=false;
+let pendingProducts=[]; // [{name,photoUrl,featured}]
 let userLat=null,userLng=null,userMarker=null,routeLayer=null;
 let dirMode='car',dirMSME=null,routeSteps=[],routeCoords=[];
-let isNavigating=false,watchId=null,currentStepIdx=0,spokenSteps=new Set();
-let arrivedShown=false;
+let isNavigating=false,watchId=null,currentStepIdx=0,spokenSteps=new Set(),arrivedShown=false;
+
+// ═══════════════════════════════════════════════
+// MIGRATE old data format
+// ═══════════════════════════════════════════════
+function migrateEntry(m){
+  // Convert old string products array to new object format
+  if(!m.products) m.products=[];
+  if(m.products.length&&typeof m.products[0]==='string'){
+    m.products=m.products.map((p,i)=>({name:p,photoUrl:'',featured:i<3}));
+  }
+  if(!m.certs) m.certs={dti:{has:false,num:''},mayors:{has:false,num:''},bir:{has:false,num:''},fdaLto:{has:false,num:''},fdaCpr:{has:false,num:''}};
+  return m;
+}
 
 // ═══════════════════════════════════════════════
 // MAP
@@ -522,9 +552,9 @@ async function loadFromDB(){
     const json=await res.json();
     let msmes=json.record?.msmes;
     if(!msmes||!msmes.length){await saveToDB(SEED_DATA);msmes=SEED_DATA;}
-    allData=msmes.filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng));
+    allData=msmes.filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng)).map(migrateEntry);
     render();showLoading(false);toast('✅ '+allData.length+' MSMEs loaded','success');
-  }catch{showLoading(false);allData=SEED_DATA;render();toast('⚠️ Using cached data','error');}
+  }catch{showLoading(false);allData=SEED_DATA.map(migrateEntry);render();toast('⚠️ Using cached data','error');}
 }
 async function saveToDB(data){
   showSavingBar(true);
@@ -558,26 +588,45 @@ function makeIcon(m,sel=false){
     :`<span style="font-size:${sel?18:15}px">${cs.icon}</span>`;
   return L.divIcon({html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${cs.color};border:3px solid #fff;box-shadow:${sh};display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer">${inner}</div>`,className:'',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-(sz/2+4)]});
 }
+
 function buildPopupHTML(m){
   const cs=catStyle(m.category);
-  const tags=(m.products||[]).slice(0,4).map(p=>`<span class="ptag">${esc(p)}</span>`).join('');
-  const more=(m.products||[]).length>4?`<span class="ptag">+${m.products.length-4} more</span>`:'';
+  // Featured products (up to 3)
+  const featured=(m.products||[]).filter(p=>p.featured).slice(0,3);
+  const showProds=featured.length?featured:(m.products||[]).slice(0,3);
+  let prodGrid='';
+  if(showProds.length){
+    prodGrid=`<div class="pu-prod-grid">`;
+    showProds.forEach(p=>{
+      const img=p.photoUrl
+        ?`<img class="pu-prod-img" src="${esc(p.photoUrl)}" onerror="this.outerHTML='<div class=\\'pu-prod-img-fb\\'>${cs.icon}</div>'">`
+        :`<div class="pu-prod-img-fb">${cs.icon}</div>`;
+      prodGrid+=`<div class="pu-prod-item">${img}<div class="pu-prod-name">${esc(p.name)}</div></div>`;
+    });
+    prodGrid+=`</div>`;
+  }else{
+    prodGrid=`<div style="font-size:11px;color:var(--ink3);margin-bottom:8px">No products listed yet.</div>`;
+  }
   const logo=m.logoUrl?`<img class="pu-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'pu-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:
     `<div class="pu-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;
   return `<div class="pu-head">${logo}<div><div class="pu-name">${esc(m.name)}</div><span class="pu-badge" style="background:${cs.bg};color:${cs.color}">${cs.icon} ${esc(m.category)}</span></div></div>
-  <div class="pu-body"><div class="pu-lbl">Products &amp; Services</div><div class="pu-tags">${tags||'<span class="ptag">—</span>'}${more}</div>
-  <div class="pu-meta"><span>📍 ${esc(m.municipality||'—')}</span>${m.contact?`<span>📞 ${esc(m.contact)}</span>`:''}</div></div>
+  <div class="pu-body">
+    <div class="pu-lbl">Featured Products</div>
+    ${prodGrid}
+    <div class="pu-meta"><span>📍 ${esc(m.municipality||'—')}</span>${m.contact?`<span>📞 ${esc(m.contact)}</span>`:''}</div>
+  </div>
   <div class="pu-foot">
-    <button class="pu-btn" onclick="openDetail('${esc(m.id)}')">View</button>
+    <button class="pu-btn" onclick="openDetail('${esc(m.id)}')">View Profile</button>
     <button class="pu-dir-btn" onclick="startDirections('${esc(m.id)}')">🧭 Directions</button>
     <button class="pu-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️</button>
   </div>`;
 }
+
 function placeMarker(m){
   if(markers[m.id])return;
   const mk=L.marker([m.lat,m.lng],{icon:makeIcon(m)});
   mk.bindTooltip(`<strong>${esc(m.name)}</strong><br>${esc(m.municipality||'')}`,{direction:'top',offset:[0,-20]});
-  mk.bindPopup(buildPopupHTML(m),{maxWidth:265,minWidth:255,closeButton:false});
+  mk.bindPopup(buildPopupHTML(m),{maxWidth:280,minWidth:270,closeButton:false});
   mk.on('click',()=>setActive(m.id));
   mk.addTo(map);markers[m.id]=mk;
 }
@@ -585,360 +634,8 @@ function refreshMarker(m){if(markers[m.id]){map.removeLayer(markers[m.id]);delet
 function refreshIcons(){allData.forEach(m=>{if(markers[m.id])markers[m.id].setIcon(makeIcon(m,m.id===activeId));});}
 
 // ═══════════════════════════════════════════════
-// GPS USER MARKER
+// DETAIL PANEL
 // ═══════════════════════════════════════════════
-function updateUserMarker(lat,lng){
-  const icon=L.divIcon({
-    html:`<div class="gps-dot-outer"><div class="gps-dot-inner"></div></div>`,
-    className:'',iconSize:[20,20],iconAnchor:[10,10]
-  });
-  if(userMarker)map.removeLayer(userMarker);
-  userMarker=L.marker([lat,lng],{icon,zIndexOffset:1000}).bindTooltip('📍 You are here',{permanent:false}).addTo(map);
-}
-
-// ═══════════════════════════════════════════════
-// DIRECTIONS
-// ═══════════════════════════════════════════════
-function fmtDist(m){return m>=1000?(m/1000).toFixed(1)+' km':Math.round(m)+' m';}
-function fmtTime(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return h>0?h+'h '+m+'min':m<1?'<1 min':m+' min';}
-const TURN_ICONS={'turn left':'↰','turn right':'↱','slight left':'↖','slight right':'↗','sharp left':'⬅','sharp right':'➡','keep left':'↖','keep right':'↗','continue':'↑','head':'↑','roundabout':'🔄','arrive':'🎯','depart':'🟢','ferry':'⛴','uturn':'↩'};
-function stepIcon(txt){const t=(txt||'').toLowerCase();for(const[k,v]of Object.entries(TURN_ICONS))if(t.includes(k))return v;return '↑';}
-
-function setDirStatus(html){document.getElementById('dir-steps').innerHTML=`<div class="dir-status">${html}</div>`;document.getElementById('dir-summary').style.display='none';}
-
-async function startDirections(id){
-  const m=allData.find(x=>x.id===id);if(!m)return;
-  map.closePopup();dirMSME=m;
-  document.getElementById('dir-panel').classList.add('open');
-  document.getElementById('legend').classList.add('shifted');
-  document.getElementById('dir-dest-name').textContent=m.name;
-  document.getElementById('dir-to-label').textContent=m.name+', '+m.municipality;
-  document.getElementById('dir-from-label').textContent='Getting your location…';
-  document.getElementById('dir-summary').style.display='none';
-  document.getElementById('start-nav-btn').style.display='none';
-  updateGmapsLink(null,null,m.lat,m.lng);
-  setDirStatus('<div class="dir-spinner"></div><span>Getting your location…</span>');
-  if(!navigator.geolocation){setDirStatus('<span style="font-size:22px">📍</span><span>Location not supported.<br>Use Google Maps below.</span>');return;}
-  navigator.geolocation.getCurrentPosition(
-    pos=>{
-      userLat=pos.coords.latitude;userLng=pos.coords.longitude;
-      document.getElementById('dir-from-label').textContent='Your current location';
-      updateGmapsLink(userLat,userLng,m.lat,m.lng);
-      updateUserMarker(userLat,userLng);
-      fetchRoute();
-    },
-    err=>{
-      setDirStatus(`<span style="font-size:22px">📍</span><span>${err.code===1?'Location access denied.<br>Allow location in browser settings.':'Could not get location.'}<br><br>Use Google Maps below.</span>`);
-      document.getElementById('dir-from-label').textContent='Unavailable';
-    },
-    {enableHighAccuracy:true,timeout:12000}
-  );
-}
-window.startDirections=startDirections;
-
-function updateGmapsLink(fLat,fLng,tLat,tLng){
-  const mode={car:'driving',bike:'bicycling',walk:'walking'}[dirMode];
-  const origin=fLat?`&origin=${fLat},${fLng}`:'';
-  document.getElementById('gmaps-btn').href=`https://www.google.com/maps/dir/?api=1${origin}&destination=${tLat},${tLng}&travelmode=${mode}`;
-}
-
-async function fetchRoute(){
-  if(!userLat||!userLng||!dirMSME)return;
-  setDirStatus('<div class="dir-spinner"></div><span>Calculating route…</span>');
-  document.getElementById('start-nav-btn').style.display='none';
-  try{
-    const res=await fetch(`https://api.openrouteservice.org/v2/directions/${ORS_PROFILES[dirMode]}`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':ORS_KEY},
-      body:JSON.stringify({coordinates:[[userLng,userLat],[dirMSME.lng,dirMSME.lat]],instructions:true,language:'en'})
-    });
-    if(!res.ok)throw new Error('ORS '+res.status);
-    const data=await res.json();
-    const route=data.routes[0];
-    const seg=route.segments[0];
-    routeCoords=decodePolyline(route.geometry);
-    routeSteps=seg.steps;
-    currentStepIdx=0;spokenSteps=new Set();
-
-    if(routeLayer)map.removeLayer(routeLayer);
-    routeLayer=L.polyline(routeCoords,{color:'#1A5C8B',weight:5,opacity:.9,lineJoin:'round'}).addTo(map);
-    map.fitBounds(routeLayer.getBounds(),{padding:[50,50]});
-
-    document.getElementById('dir-summary').style.display='block';
-    document.getElementById('dir-dist').textContent=fmtDist(route.summary.distance);
-    document.getElementById('dir-time').textContent='~'+fmtTime(route.summary.duration);
-
-    const stepsEl=document.getElementById('dir-steps');stepsEl.innerHTML='';
-    routeSteps.forEach((step,i)=>{
-      const div=document.createElement('div');div.className='step-item';div.id='step-'+i;
-      div.innerHTML=`<div class="step-icon" id="step-icon-${i}">${stepIcon(step.instruction)}</div>
-        <div class="step-body"><div class="step-text">${step.instruction}</div>${step.distance>0?`<div class="step-dist">${fmtDist(step.distance)}</div>`:''}</div>`;
-      stepsEl.appendChild(div);
-    });
-
-    // Show Start button
-    document.getElementById('start-nav-btn').style.display='flex';
-    document.getElementById('start-nav-text').textContent='🚗 Start Navigation';
-    document.getElementById('start-nav-btn').className='start-nav-btn';
-
-  }catch(e){
-    console.error(e);
-    // Fallback straight line
-    if(routeLayer)map.removeLayer(routeLayer);
-    routeLayer=L.polyline([[userLat,userLng],[dirMSME.lat,dirMSME.lng]],{color:'#1A5C8B',weight:3,opacity:.6,dashArray:'8,6'}).addTo(map);
-    map.fitBounds([[userLat,userLng],[dirMSME.lat,dirMSME.lng]],{padding:[50,50]});
-    const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng);
-    document.getElementById('dir-summary').style.display='block';
-    document.getElementById('dir-dist').textContent=fmtDist(d*1000);
-    document.getElementById('dir-time').textContent='Approx.';
-    setDirStatus('<span style="font-size:22px">🗺</span><span>Detailed route unavailable.<br>Showing straight-line distance.<br>Use Google Maps for turn-by-turn.</span>');
-  }
-}
-
-function setMode(m){
-  dirMode=m;['car','bike','walk'].forEach(x=>document.getElementById('mode-'+x).classList.toggle('active',x===m));
-  if(dirMSME)updateGmapsLink(userLat,userLng,dirMSME.lat,dirMSME.lng);
-  if(userLat&&userLng&&dirMSME)fetchRoute();
-}
-window.setMode=setMode;
-
-function closeDirections(){
-  if(isNavigating)stopNavigation();
-  document.getElementById('dir-panel').classList.remove('open');
-  document.getElementById('legend').classList.remove('shifted');
-  if(routeLayer){map.removeLayer(routeLayer);routeLayer=null;}
-  if(userMarker){map.removeLayer(userMarker);userMarker=null;}
-  dirMSME=null;userLat=null;userLng=null;routeSteps=[];routeCoords=[];
-}
-window.closeDirections=closeDirections;
-
-// ═══════════════════════════════════════════════
-// GPS NAVIGATION
-// ═══════════════════════════════════════════════
-function toggleNavigation(){
-  if(isNavigating)stopNavigation();
-  else startNavigation();
-}
-window.toggleNavigation=toggleNavigation;
-
-function startNavigation(){
-  if(!routeSteps.length){toast('Get directions first before starting navigation.','error');return;}
-  isNavigating=true;arrivedShown=false;
-  document.getElementById('nav-overlay').classList.add('active');
-  document.getElementById('nav-dest-name').textContent='→ '+dirMSME.name;
-  document.getElementById('start-nav-btn').className='start-nav-btn navigating';
-  document.getElementById('start-nav-text').textContent='Stop Navigation';
-
-  // Lock map follow
-  map.setView([userLat,userLng],16);
-
-  updateNavDisplay();
-
-  // Watch position
-  watchId=navigator.geolocation.watchPosition(
-    pos=>{
-      userLat=pos.coords.latitude;userLng=pos.coords.longitude;
-      updateUserMarker(userLat,userLng);
-
-      // Follow in navigation mode
-      if(isNavigating)map.setView([userLat,userLng],16,{animate:true,duration:.8});
-
-      // Check arrival
-      const distToDest=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;
-      if(distToDest<=ARRIVE_RADIUS&&!arrivedShown){
-        arrivedShown=true;
-        showArrived();
-        return;
-      }
-
-      // Find closest step
-      updateStepProgress();
-      updateNavDisplay();
-    },
-    err=>console.warn('GPS watch error:',err),
-    {enableHighAccuracy:true,maximumAge:2000,timeout:10000}
-  );
-}
-
-function stopNavigation(){
-  isNavigating=false;
-  if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}
-  document.getElementById('nav-overlay').classList.remove('active');
-  document.getElementById('nav-arrived').style.display='none';
-  document.getElementById('start-nav-btn').className='start-nav-btn';
-  document.getElementById('start-nav-text').textContent='🚗 Start Navigation';
-}
-window.stopNavigation=stopNavigation;
-
-function updateStepProgress(){
-  if(!routeSteps.length)return;
-  // Find step user is closest to
-  let minDist=Infinity,closestStep=currentStepIdx;
-  routeSteps.forEach((step,i)=>{
-    if(i<currentStepIdx)return; // don't go backwards
-    const wp=step.way_points;
-    if(!wp||!routeCoords[wp[0]])return;
-    const c=routeCoords[wp[0]];
-    const d=haversine(userLat,userLng,c[0],c[1])*1000;
-    if(d<minDist){minDist=d;closestStep=i;}
-  });
-  // Advance step if within 30m
-  if(closestStep>currentStepIdx||(closestStep===currentStepIdx&&haversine(userLat,userLng,...getStepCoord(currentStepIdx))*1000<30)){
-    if(closestStep>currentStepIdx)currentStepIdx=closestStep;
-  }
-  // Highlight current step in list
-  document.querySelectorAll('.step-item').forEach((el,i)=>{
-    el.classList.toggle('current',i===currentStepIdx);
-    const icon=document.getElementById('step-icon-'+i);
-    if(icon)icon.classList.toggle('active-step',i===currentStepIdx);
-  });
-  const curr=document.getElementById('step-'+currentStepIdx);
-  if(curr)curr.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-function getStepCoord(stepIdx){
-  const step=routeSteps[stepIdx];
-  if(!step)return[userLat,userLng];
-  const wp=step.way_points;
-  if(!wp||!routeCoords[wp[0]])return[userLat,userLng];
-  return routeCoords[wp[0]];
-}
-
-function updateNavDisplay(){
-  if(!routeSteps.length)return;
-  const curr=routeSteps[currentStepIdx];
-  const next=routeSteps[currentStepIdx+1];
-  if(!curr)return;
-
-  // Distance to current step waypoint
-  const [wLat,wLng]=getStepCoord(currentStepIdx);
-  const distToStep=haversine(userLat,userLng,wLat,wLng)*1000;
-
-  document.getElementById('nav-turn-icon').textContent=stepIcon(curr.instruction);
-  document.getElementById('nav-next-dist').textContent=fmtDist(distToStep);
-  document.getElementById('nav-next-step').textContent=curr.instruction;
-  document.getElementById('nav-after-step').textContent=next?'Then: '+next.instruction:'';
-
-  // Remaining distance (approx)
-  const totalDist=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;
-  document.getElementById('nav-remain-dist').textContent=fmtDist(totalDist);
-  // Rough ETA
-  const speeds={car:50000,bike:15000,walk:5000}; // m per hour
-  const eta=totalDist/speeds[dirMode]*60;
-  document.getElementById('nav-remain-time').textContent=eta<1?'<1 min':Math.round(eta)+' min';
-
-  // Voice instruction (speak once per step)
-  if(!spokenSteps.has(currentStepIdx)&&distToStep<150){
-    speak(curr.instruction);
-    spokenSteps.add(currentStepIdx);
-  }
-}
-
-function showArrived(){
-  stopNavigation();
-  speak('You have arrived at '+dirMSME.name);
-  document.getElementById('nav-arrived-name').textContent='Welcome to '+dirMSME.name+'!';
-  document.getElementById('nav-arrived').style.display='block';
-  setTimeout(()=>document.getElementById('nav-arrived').style.display='none',8000);
-}
-
-// ═══════════════════════════════════════════════
-// VOICE (Web Speech API)
-// ═══════════════════════════════════════════════
-function speak(text){
-  if(!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  const utt=new SpeechSynthesisUtterance(text);
-  utt.lang='en-PH';utt.rate=1;utt.pitch=1;utt.volume=1;
-  window.speechSynthesis.speak(utt);
-}
-
-// ═══════════════════════════════════════════════
-// POLYLINE DECODER
-// ═══════════════════════════════════════════════
-function decodePolyline(encoded,precision=5){
-  let idx=0,lat=0,lng=0;const coords=[];const factor=Math.pow(10,precision);
-  while(idx<encoded.length){
-    let b,shift=0,result=0;
-    do{b=encoded.charCodeAt(idx++)-63;result|=(b&0x1f)<<shift;shift+=5;}while(b>=0x20);
-    lat+=(result&1)?~(result>>1):(result>>1);shift=result=0;
-    do{b=encoded.charCodeAt(idx++)-63;result|=(b&0x1f)<<shift;shift+=5;}while(b>=0x20);
-    lng+=(result&1)?~(result>>1):(result>>1);
-    coords.push([lat/factor,lng/factor]);
-  }
-  return coords;
-}
-function haversine(lat1,lon1,lat2,lon2){
-  const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-
-// ═══════════════════════════════════════════════
-// FILTERS & LIST
-// ═══════════════════════════════════════════════
-function filtered(){
-  const q=document.getElementById('search').value.trim().toLowerCase();
-  return allData.filter(m=>{
-    const mc=activeFilter==='All'||m.category===activeFilter;
-    const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[])].some(s=>(s||'').toLowerCase().includes(q));
-    return mc&&mq;
-  });
-}
-function applyFilters(){
-  const fd=filtered();
-  allData.forEach(m=>{const show=fd.find(f=>f.id===m.id);if(show){placeMarker(m);map.addLayer(markers[m.id]);}else if(markers[m.id])map.removeLayer(markers[m.id]);});
-  buildList(fd);document.getElementById('h-shown').textContent=fd.length;
-}
-function buildChips(){
-  const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];
-  const el=document.getElementById('chips');el.innerHTML='';
-  cats.forEach(cat=>{
-    const cs=cat==='All'?null:catStyle(cat);
-    const ch=document.createElement('div');ch.className='chip'+(cat===activeFilter?' on':'');
-    ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;
-    ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});
-    el.appendChild(ch);
-  });
-}
-function buildList(data){
-  const el=document.getElementById('msme-list');
-  const q=document.getElementById('search').value.trim().toLowerCase();el.innerHTML='';
-  if(!data.length){el.innerHTML='<div class="no-results">😔 No MSMEs found</div>';return;}
-  const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);
-  data.forEach(m=>{
-    const cs=catStyle(m.category);const card=document.createElement('div');
-    card.className='mcard'+(m.id===activeId?' active':'');card.dataset.id=m.id;
-    const logo=m.logoUrl?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`
-      :`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;
-    card.innerHTML=`${logo}<div class="mcard-info"><div class="mcard-name">${hi(m.name)}</div><div class="mcard-cat">${cs.icon} ${esc(m.category)}</div><div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div><div class="mcard-prods">${(m.products||[]).length?m.products.slice(0,3).map(p=>hi(p)).join(' · '):'—'}</div></div>`;
-    card.addEventListener('click',()=>selectMSME(m.id));el.appendChild(card);
-  });
-}
-function buildLegend(){
-  const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];
-  const el=document.getElementById('leg-items');el.innerHTML='';
-  cats.forEach(cat=>{
-    const cs=catStyle(cat);const item=document.createElement('div');item.className='leg-item';
-    item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;
-    item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});
-    el.appendChild(item);
-  });
-}
-
-// ═══════════════════════════════════════════════
-// SELECT & DETAIL
-// ═══════════════════════════════════════════════
-function setActive(id){
-  activeId=id;refreshIcons();
-  document.querySelectorAll('.mcard').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
-  if(id){const c=document.querySelector(`.mcard[data-id="${id}"]`);if(c)c.scrollIntoView({behavior:'smooth',block:'center'});}
-}
-function selectMSME(id){
-  const m=allData.find(x=>x.id===id);if(!m)return;setActive(id);
-  map.flyTo([m.lat,m.lng],Math.max(map.getZoom(),14),{duration:1.2});
-  setTimeout(()=>{if(markers[id])markers[id].openPopup();},900);
-}
 function openDetail(id){
   const m=allData.find(x=>x.id===id);if(!m)return;map.closePopup();
   const cs=catStyle(m.category);
@@ -946,15 +643,61 @@ function openDetail(id){
     `<div class="dh-logo-fb">${cs.icon}</div>`;
   document.getElementById('dh-title').textContent=m.name;
   document.getElementById('dh-sub').textContent=`${m.municipality||''} · ${m.category}`;
+
+  // Products gallery (all products)
+  const prods=m.products||[];
+  let galleryHTML='';
+  if(prods.length){
+    galleryHTML=`<div class="prod-gallery">`;
+    prods.forEach(p=>{
+      const img=p.photoUrl
+        ?`<img class="prod-gallery-img" src="${esc(p.photoUrl)}" onerror="this.outerHTML='<div class=\\'prod-gallery-img-fb\\'>${cs.icon}</div>'">`
+        :`<div class="prod-gallery-img-fb">${cs.icon}</div>`;
+      galleryHTML+=`<div class="prod-gallery-item">${img}<div class="prod-gallery-name">${esc(p.name)}</div></div>`;
+    });
+    galleryHTML+=`</div>`;
+  }else{
+    galleryHTML=`<p>No products listed yet.</p>`;
+  }
+
+  // Certifications
+  const certs=m.certs||{};
+  const certDefs=[
+    {key:'dti',    icon:'🏛', label:'DTI Certificate',               subLabel:'Business Name Reg. No.'},
+    {key:'mayors', icon:'🏢', label:"Mayor's Permit",                subLabel:'Business Permit No.'},
+    {key:'bir',    icon:'📋', label:'BIR Certificate of Registration',subLabel:'COR No.'},
+    {key:'fdaLto', icon:'🧪', label:'FDA License to Operate (LTO)',  subLabel:'LTO No.'},
+    {key:'fdaCpr', icon:'🧪', label:'FDA Cert. of Product Reg. (CPR)',subLabel:'CPR No.'},
+  ];
+  const hasCerts=certDefs.some(cd=>certs[cd.key]?.has);
+  let certHTML=hasCerts?'<div class="cert-list">':'<div class="cert-none">No certifications on file.</div>';
+  if(hasCerts){
+    certDefs.forEach(cd=>{
+      const c=certs[cd.key];
+      if(!c?.has)return;
+      certHTML+=`<div class="cert-item">
+        <div class="cert-badge" style="background:var(--green-pale)">${cd.icon}</div>
+        <div class="cert-body">
+          <div class="cert-name">${cd.label}</div>
+          <span class="cert-status registered">✔ Registered</span>
+          ${c.num?`<div class="cert-num">${cd.subLabel}: <strong>${esc(c.num)}</strong></div>`:''}
+        </div>
+      </div>`;
+    });
+    certHTML+=`</div>`;
+  }
+
   document.getElementById('db').innerHTML=`
     ${m.description?`<div class="ds"><h3>About</h3><p>${esc(m.description)}</p></div>`:''}
-    ${(m.products||[]).length?`<div class="ds"><h3>Products &amp; Services (${m.products.length})</h3><div class="pgrid">${m.products.map(p=>`<div class="pcard">${cs.icon} ${esc(p)}</div>`).join('')}</div></div>`:''}
-    <div class="ds"><h3>Business Info</h3>
+    <div class="ds"><h3>Products &amp; Services (${prods.length})</h3>${galleryHTML}</div>
+    <div class="ds">
+      <h3>Business Info</h3>
       <div class="irow"><span class="ikey">Category</span><span class="ival">${esc(m.category)}</span></div>
       ${m.municipality?`<div class="irow"><span class="ikey">Municipality</span><span class="ival">${esc(m.municipality)}</span></div>`:''}
       ${m.contact?`<div class="irow"><span class="ikey">Contact</span><span class="ival">${esc(m.contact)}</span></div>`:''}
       <div class="irow"><span class="ikey">Coordinates</span><span class="ival">${m.lat.toFixed(5)}, ${m.lng.toFixed(5)}</span></div>
     </div>
+    <div class="ds"><h3>Business Certifications</h3>${certHTML}</div>
     <div class="action-row">
       <button class="d-dir-btn" onclick="startDirections('${esc(m.id)}')">🧭 Get Directions</button>
       <button class="d-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️ Edit</button>
@@ -967,55 +710,259 @@ function closeDetail(){document.getElementById('detail').classList.remove('open'
 window.openDetail=openDetail;window.closeDetail=closeDetail;
 
 // ═══════════════════════════════════════════════
-// DELETE
+// PRODUCT ROW EDITOR
 // ═══════════════════════════════════════════════
-async function deleteMSME(id){
-  const m=allData.find(x=>x.id===id);if(!m)return;
-  if(!confirm(`Remove "${m.name}"?\nThis affects all visitors.`))return;
-  allData=allData.filter(x=>x.id!==id);
-  if(markers[id]){map.removeLayer(markers[id]);delete markers[id];}
-  closeDetail();buildChips();buildLegend();applyFilters();updateStats();
-  const ok=await saveToDB(allData);if(ok)toast(`🗑 "${m.name}" removed`,'success');
+function renderProdEditor(){
+  const el=document.getElementById('prod-editor-list');el.innerHTML='';
+  pendingProducts.forEach((p,i)=>{
+    const div=document.createElement('div');div.className='prod-editor-item';
+    const img=p.photoUrl?`<img class="prod-editor-img" src="${esc(p.photoUrl)}" onerror="this.className='prod-editor-img-fb';this.innerHTML='🛍'">`
+      :`<div class="prod-editor-img-fb">🛍</div>`;
+    const featCount=pendingProducts.filter(x=>x.featured).length;
+    const canFeature=p.featured||(featCount<3);
+    div.innerHTML=`${img}
+      <div class="prod-editor-fields">
+        <input type="text" placeholder="Product name" value="${esc(p.name)}" oninput="updateProd(${i},'name',this.value)">
+        <input type="text" class="url-input" placeholder="Photo URL (i.imgur.com/…)" value="${esc(p.photoUrl)}" oninput="updateProd(${i},'photoUrl',this.value)">
+      </div>
+      <button class="featured-toggle ${p.featured?'on':''}" title="Show in popup (max 3)" onclick="toggleFeatured(${i})" ${!canFeature&&!p.featured?'disabled style="opacity:.4"':''}>★</button>
+      <button class="prod-remove-btn" onclick="removeProd(${i})">✕</button>`;
+    el.appendChild(div);
+  });
 }
-window.deleteMSME=deleteMSME;
+function addProductRow(){pendingProducts.push({name:'',photoUrl:'',featured:pendingProducts.filter(p=>p.featured).length<3});renderProdEditor();}
+function updateProd(i,field,val){pendingProducts[i][field]=val;if(field==='photoUrl')setTimeout(()=>renderProdEditor(),500);}
+function toggleFeatured(i){
+  const p=pendingProducts[i];
+  if(p.featured){p.featured=false;}
+  else{
+    const cnt=pendingProducts.filter(x=>x.featured).length;
+    if(cnt>=3){alert('You can only feature up to 3 products in the popup.\n\nUnstar another product first.');return;}
+    p.featured=true;
+  }
+  renderProdEditor();
+}
+function removeProd(i){pendingProducts.splice(i,1);renderProdEditor();}
+window.addProductRow=addProductRow;window.updateProd=updateProd;window.toggleFeatured=toggleFeatured;window.removeProd=removeProd;
 
 // ═══════════════════════════════════════════════
-// PRODUCT TAGS
+// CERT TOGGLES
 // ═══════════════════════════════════════════════
-function renderProductTags(){
-  const wrap=document.getElementById('prod-tags-wrap');wrap.innerHTML='';
-  pendingProducts.forEach((p,i)=>{const tag=document.createElement('div');tag.className='prod-tag-item';tag.innerHTML=`${esc(p)}<button class="prod-tag-remove" onclick="removeProductTag(${i})">✕</button>`;wrap.appendChild(tag);});
+function toggleCert(key){
+  const btn=document.getElementById('cert-'+key+'-toggle');
+  const inp=document.getElementById('cert-'+key+'-num');
+  const isOn=btn.classList.toggle('on');
+  inp.style.display=isOn?'block':'none';
+  if(!isOn)inp.value='';
 }
-function addProductTag(){const inp=document.getElementById('prod-input');const val=inp.value.trim();if(!val)return;val.split(',').map(v=>v.trim()).filter(Boolean).forEach(v=>{if(!pendingProducts.includes(v))pendingProducts.push(v);});inp.value='';renderProductTags();inp.focus();}
-function removeProductTag(i){pendingProducts.splice(i,1);renderProductTags();}
-window.removeProductTag=removeProductTag;
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.activeElement.id==='prod-input'){e.preventDefault();addProductTag();}});
+window.toggleCert=toggleCert;
+
+function setCertState(key,has,num){
+  const btn=document.getElementById('cert-'+key+'-toggle');
+  const inp=document.getElementById('cert-'+key+'-num');
+  if(has){btn.classList.add('on');inp.style.display='block';inp.value=num||'';}
+  else{btn.classList.remove('on');inp.style.display='none';inp.value='';}
+}
+
+function readCerts(){
+  const keys=['dti','mayors','bir','fda-lto','fda-cpr'];
+  const out={};
+  keys.forEach(k=>{
+    const camel=k.replace(/-([a-z])/g,(_,c)=>c.toUpperCase());// fda-lto → fdaLto
+    const btn=document.getElementById('cert-'+k+'-toggle');
+    const inp=document.getElementById('cert-'+k+'-num');
+    out[camel]={has:btn.classList.contains('on'),num:inp.value.trim()};
+  });
+  return out;
+}
 
 // ═══════════════════════════════════════════════
 // MODAL
 // ═══════════════════════════════════════════════
-function openModal(){modalMode='add';editingId=null;pendingProducts=[];document.getElementById('modal-title').textContent='➕ Add New MSME';document.getElementById('save-btn-text').textContent='Add to Map';['f-name','f-desc','f-lat','f-lng','f-contact','f-logo'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-cat').value='Food';document.getElementById('f-muni').value='Koronadal City';renderProductTags();document.getElementById('modal-overlay').classList.add('open');}
-function openEditModal(id){const m=allData.find(x=>x.id===id);if(!m)return;modalMode='edit';editingId=id;pendingProducts=[...(m.products||[])];document.getElementById('modal-title').textContent='✏️ Edit MSME';document.getElementById('save-btn-text').textContent='Save Changes';document.getElementById('f-name').value=m.name||'';document.getElementById('f-cat').value=m.category||'Food';document.getElementById('f-muni').value=m.municipality||'Koronadal City';document.getElementById('f-desc').value=m.description||'';document.getElementById('f-lat').value=m.lat||'';document.getElementById('f-lng').value=m.lng||'';document.getElementById('f-contact').value=m.contact||'';document.getElementById('f-logo').value=m.logoUrl||'';renderProductTags();map.closePopup();document.getElementById('modal-overlay').classList.add('open');}
+function openModal(){
+  modalMode='add';editingId=null;pendingProducts=[];
+  document.getElementById('modal-title').textContent='➕ Add New MSME';
+  document.getElementById('save-btn-text').textContent='Add to Map';
+  ['f-name','f-desc','f-lat','f-lng','f-contact','f-logo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-cat').value='Food';document.getElementById('f-muni').value='Koronadal City';
+  ['dti','mayors','bir','fda-lto','fda-cpr'].forEach(k=>setCertState(k,false,''));
+  renderProdEditor();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function openEditModal(id){
+  const m=allData.find(x=>x.id===id);if(!m)return;
+  modalMode='edit';editingId=id;
+  pendingProducts=(m.products||[]).map(p=>({...p}));
+  document.getElementById('modal-title').textContent='✏️ Edit MSME';
+  document.getElementById('save-btn-text').textContent='Save Changes';
+  document.getElementById('f-name').value=m.name||'';
+  document.getElementById('f-cat').value=m.category||'Food';
+  document.getElementById('f-muni').value=m.municipality||'Koronadal City';
+  document.getElementById('f-desc').value=m.description||'';
+  document.getElementById('f-lat').value=m.lat||'';
+  document.getElementById('f-lng').value=m.lng||'';
+  document.getElementById('f-contact').value=m.contact||'';
+  document.getElementById('f-logo').value=m.logoUrl||'';
+  const c=m.certs||{};
+  setCertState('dti',     c.dti?.has,    c.dti?.num);
+  setCertState('mayors',  c.mayors?.has, c.mayors?.num);
+  setCertState('bir',     c.bir?.has,    c.bir?.num);
+  setCertState('fda-lto', c.fdaLto?.has, c.fdaLto?.num);
+  setCertState('fda-cpr', c.fdaCpr?.has, c.fdaCpr?.num);
+  renderProdEditor();map.closePopup();
+  document.getElementById('modal-overlay').classList.add('open');
+}
 window.openEditModal=openEditModal;
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 window.openModal=openModal;window.closeModal=closeModal;
 
 async function saveMSME(){
   if(isSaving)return;
-  const name=document.getElementById('f-name').value.trim(),cat=document.getElementById('f-cat').value,muni=document.getElementById('f-muni').value,desc=document.getElementById('f-desc').value.trim(),lat=parseFloat(document.getElementById('f-lat').value),lng=parseFloat(document.getElementById('f-lng').value),contact=document.getElementById('f-contact').value.trim(),logoUrl=document.getElementById('f-logo').value.trim();
-  if(!name){alert('Enter a business name.');return;}if(isNaN(lat)||isNaN(lng)){alert('Enter valid Latitude and Longitude.');return;}
-  isSaving=true;const btn=document.getElementById('modal-save-btn');btn.disabled=true;document.getElementById('save-btn-text').textContent='Saving…';
+  const name=document.getElementById('f-name').value.trim();
+  const cat=document.getElementById('f-cat').value;
+  const muni=document.getElementById('f-muni').value;
+  const desc=document.getElementById('f-desc').value.trim();
+  const lat=parseFloat(document.getElementById('f-lat').value);
+  const lng=parseFloat(document.getElementById('f-lng').value);
+  const contact=document.getElementById('f-contact').value.trim();
+  const logoUrl=document.getElementById('f-logo').value.trim();
+  const certs=readCerts();
+  const products=pendingProducts.filter(p=>p.name.trim());
+  if(!name){alert('Please enter a business name.');return;}
+  if(isNaN(lat)||isNaN(lng)){alert('Please enter valid Latitude and Longitude.');return;}
+  isSaving=true;const btn=document.getElementById('modal-save-btn');btn.disabled=true;
+  document.getElementById('save-btn-text').textContent='Saving…';
   if(modalMode==='edit'){
     const idx=allData.findIndex(x=>x.id===editingId);if(idx<0){isSaving=false;return;}
-    allData[idx]={...allData[idx],name,category:cat,municipality:muni,products:[...pendingProducts],description:desc,lat,lng,contact,logoUrl};
-    const ok=await saveToDB(allData);if(ok){refreshMarker(allData[idx]);buildChips();buildLegend();applyFilters();updateStats();closeModal();if(document.getElementById('detail').classList.contains('open'))openDetail(editingId);toast(`✅ "${name}" updated!`,'success');}
+    allData[idx]={...allData[idx],name,category:cat,municipality:muni,products,description:desc,lat,lng,contact,logoUrl,certs};
+    const ok=await saveToDB(allData);
+    if(ok){refreshMarker(allData[idx]);buildChips();buildLegend();applyFilters();updateStats();closeModal();
+      if(document.getElementById('detail').classList.contains('open'))openDetail(editingId);
+      toast(`✅ "${name}" updated!`,'success');}
   }else{
-    const newId=String(Date.now());const entry={id:newId,name,category:cat,municipality:muni,products:[...pendingProducts],description:desc,lat,lng,contact,logoUrl};allData.push(entry);
-    const ok=await saveToDB(allData);if(ok){buildChips();buildLegend();applyFilters();updateStats();placeMarker(entry);map.flyTo([lat,lng],14,{duration:1});setTimeout(()=>{if(markers[newId])markers[newId].openPopup();},800);closeModal();toast(`✅ "${name}" added!`,'success');}else allData.pop();
+    const newId=String(Date.now());
+    const entry={id:newId,name,category:cat,municipality:muni,products,description:desc,lat,lng,contact,logoUrl,certs};
+    allData.push(entry);
+    const ok=await saveToDB(allData);
+    if(ok){buildChips();buildLegend();applyFilters();updateStats();placeMarker(entry);
+      map.flyTo([lat,lng],14,{duration:1});setTimeout(()=>{if(markers[newId])markers[newId].openPopup();},800);
+      closeModal();toast(`✅ "${name}" added!`,'success');}
+    else allData.pop();
   }
-  isSaving=false;btn.disabled=false;document.getElementById('save-btn-text').textContent=modalMode==='edit'?'Save Changes':'Add to Map';
+  isSaving=false;btn.disabled=false;
+  document.getElementById('save-btn-text').textContent=modalMode==='edit'?'Save Changes':'Add to Map';
 }
 window.saveMSME=saveMSME;
+
+// ═══════════════════════════════════════════════
+// DIRECTIONS + GPS NAV (same as before)
+// ═══════════════════════════════════════════════
+function fmtDist(m){return m>=1000?(m/1000).toFixed(1)+' km':Math.round(m)+' m';}
+function fmtTime(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return h>0?h+'h '+m+'min':m<1?'<1 min':m+' min';}
+const TURN_ICONS={'turn left':'↰','turn right':'↱','slight left':'↖','slight right':'↗','sharp left':'⬅','sharp right':'➡','keep left':'↖','keep right':'↗','continue':'↑','head':'↑','roundabout':'🔄','arrive':'🎯','depart':'🟢','ferry':'⛴','uturn':'↩'};
+function stepIcon(txt){const t=(txt||'').toLowerCase();for(const[k,v]of Object.entries(TURN_ICONS))if(t.includes(k))return v;return '↑';}
+function setDirStatus(html){document.getElementById('dir-steps').innerHTML=`<div class="dir-status">${html}</div>`;document.getElementById('dir-summary').style.display='none';}
+function updateGmapsLink(fLat,fLng,tLat,tLng){const mode={car:'driving',bike:'bicycling',walk:'walking'}[dirMode];const origin=fLat?`&origin=${fLat},${fLng}`:'';document.getElementById('gmaps-btn').href=`https://www.google.com/maps/dir/?api=1${origin}&destination=${tLat},${tLng}&travelmode=${mode}`;}
+
+async function startDirections(id){
+  const m=allData.find(x=>x.id===id);if(!m)return;map.closePopup();dirMSME=m;
+  document.getElementById('dir-panel').classList.add('open');document.getElementById('legend').classList.add('shifted');
+  document.getElementById('dir-dest-name').textContent=m.name;document.getElementById('dir-to-label').textContent=m.name+', '+m.municipality;
+  document.getElementById('dir-from-label').textContent='Getting location…';document.getElementById('dir-summary').style.display='none';
+  document.getElementById('start-nav-btn').style.display='none';updateGmapsLink(null,null,m.lat,m.lng);
+  setDirStatus('<div class="dir-spinner"></div><span>Getting your location…</span>');
+  if(!navigator.geolocation){setDirStatus('<span style="font-size:22px">📍</span><span>Location not supported.<br>Use Google Maps below.</span>');return;}
+  navigator.geolocation.getCurrentPosition(
+    pos=>{userLat=pos.coords.latitude;userLng=pos.coords.longitude;document.getElementById('dir-from-label').textContent='Your current location';updateGmapsLink(userLat,userLng,m.lat,m.lng);updateUserMarker(userLat,userLng);fetchRoute();},
+    err=>{setDirStatus(`<span style="font-size:22px">📍</span><span>${err.code===1?'Location access denied.':'Could not get location.'}<br>Use Google Maps below.</span>`);document.getElementById('dir-from-label').textContent='Unavailable';},
+    {enableHighAccuracy:true,timeout:12000}
+  );
+}
+window.startDirections=startDirections;
+
+async function fetchRoute(){
+  if(!userLat||!userLng||!dirMSME)return;
+  setDirStatus('<div class="dir-spinner"></div><span>Calculating route…</span>');document.getElementById('start-nav-btn').style.display='none';
+  try{
+    const res=await fetch(`https://api.openrouteservice.org/v2/directions/${ORS_PROFILES[dirMode]}`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':ORS_KEY},body:JSON.stringify({coordinates:[[userLng,userLat],[dirMSME.lng,dirMSME.lat]],instructions:true,language:'en'})});
+    if(!res.ok)throw new Error('ORS '+res.status);
+    const data=await res.json();const route=data.routes[0];const seg=route.segments[0];
+    routeCoords=decodePolyline(route.geometry);routeSteps=seg.steps;currentStepIdx=0;spokenSteps=new Set();
+    if(routeLayer)map.removeLayer(routeLayer);
+    routeLayer=L.polyline(routeCoords,{color:'#1A5C8B',weight:5,opacity:.9,lineJoin:'round'}).addTo(map);
+    map.fitBounds(routeLayer.getBounds(),{padding:[50,50]});
+    document.getElementById('dir-summary').style.display='block';document.getElementById('dir-dist').textContent=fmtDist(route.summary.distance);document.getElementById('dir-time').textContent='~'+fmtTime(route.summary.duration);
+    const stepsEl=document.getElementById('dir-steps');stepsEl.innerHTML='';
+    routeSteps.forEach((step,i)=>{const div=document.createElement('div');div.className='step-item';div.id='step-'+i;div.innerHTML=`<div class="step-icon" id="step-icon-${i}">${stepIcon(step.instruction)}</div><div class="step-body"><div class="step-text">${step.instruction}</div>${step.distance>0?`<div class="step-dist">${fmtDist(step.distance)}</div>`:''}</div>`;stepsEl.appendChild(div);});
+    document.getElementById('start-nav-btn').style.display='flex';document.getElementById('start-nav-text').textContent='🚗 Start Navigation';document.getElementById('start-nav-btn').className='start-nav-btn';
+  }catch(e){
+    console.error(e);if(routeLayer)map.removeLayer(routeLayer);
+    routeLayer=L.polyline([[userLat,userLng],[dirMSME.lat,dirMSME.lng]],{color:'#1A5C8B',weight:3,opacity:.6,dashArray:'8,6'}).addTo(map);
+    map.fitBounds([[userLat,userLng],[dirMSME.lat,dirMSME.lng]],{padding:[50,50]});
+    const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng);
+    document.getElementById('dir-summary').style.display='block';document.getElementById('dir-dist').textContent=fmtDist(d*1000);document.getElementById('dir-time').textContent='Approx.';
+    setDirStatus('<span style="font-size:22px">🗺</span><span>Detailed route unavailable.<br>Use Google Maps for turn-by-turn.</span>');
+  }
+}
+
+function setMode(m){dirMode=m;['car','bike','walk'].forEach(x=>document.getElementById('mode-'+x).classList.toggle('active',x===m));if(dirMSME)updateGmapsLink(userLat,userLng,dirMSME.lat,dirMSME.lng);if(userLat&&userLng&&dirMSME)fetchRoute();}
+window.setMode=setMode;
+
+function closeDirections(){if(isNavigating)stopNavigation();document.getElementById('dir-panel').classList.remove('open');document.getElementById('legend').classList.remove('shifted');if(routeLayer){map.removeLayer(routeLayer);routeLayer=null;}if(userMarker){map.removeLayer(userMarker);userMarker=null;}dirMSME=null;userLat=null;userLng=null;routeSteps=[];routeCoords=[];}
+window.closeDirections=closeDirections;
+
+function updateUserMarker(lat,lng){const icon=L.divIcon({html:`<div class="gps-dot-outer"><div class="gps-dot-inner"></div></div>`,className:'',iconSize:[20,20],iconAnchor:[10,10]});if(userMarker)map.removeLayer(userMarker);userMarker=L.marker([lat,lng],{icon,zIndexOffset:1000}).bindTooltip('📍 You are here').addTo(map);}
+
+function toggleNavigation(){if(isNavigating)stopNavigation();else startNavigation();}
+window.toggleNavigation=toggleNavigation;
+
+function startNavigation(){
+  if(!routeSteps.length){toast('Get directions first.','error');return;}
+  isNavigating=true;arrivedShown=false;
+  document.getElementById('nav-overlay').classList.add('active');document.getElementById('nav-dest-name').textContent='→ '+dirMSME.name;
+  document.getElementById('start-nav-btn').className='start-nav-btn navigating';document.getElementById('start-nav-text').textContent='Stop Navigation';
+  map.setView([userLat,userLng],16);updateNavDisplay();
+  watchId=navigator.geolocation.watchPosition(
+    pos=>{userLat=pos.coords.latitude;userLng=pos.coords.longitude;updateUserMarker(userLat,userLng);if(isNavigating)map.setView([userLat,userLng],16,{animate:true,duration:.8});const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;if(d<=ARRIVE_RADIUS&&!arrivedShown){arrivedShown=true;showArrived();return;}updateStepProgress();updateNavDisplay();},
+    err=>console.warn(err),{enableHighAccuracy:true,maximumAge:2000,timeout:10000}
+  );
+}
+function stopNavigation(){isNavigating=false;if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}document.getElementById('nav-overlay').classList.remove('active');document.getElementById('nav-arrived').style.display='none';document.getElementById('start-nav-btn').className='start-nav-btn';document.getElementById('start-nav-text').textContent='🚗 Start Navigation';}
+window.stopNavigation=stopNavigation;
+
+function updateStepProgress(){if(!routeSteps.length)return;routeSteps.forEach((step,i)=>{if(i<currentStepIdx)return;const wp=step.way_points;if(!wp||!routeCoords[wp[0]])return;const c=routeCoords[wp[0]];if(haversine(userLat,userLng,c[0],c[1])*1000<30&&i>currentStepIdx)currentStepIdx=i;});document.querySelectorAll('.step-item').forEach((el,i)=>{el.classList.toggle('current',i===currentStepIdx);const ic=document.getElementById('step-icon-'+i);if(ic)ic.classList.toggle('active-step',i===currentStepIdx);});const curr=document.getElementById('step-'+currentStepIdx);if(curr)curr.scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+function getStepCoord(si){const step=routeSteps[si];if(!step)return[userLat,userLng];const wp=step.way_points;if(!wp||!routeCoords[wp[0]])return[userLat,userLng];return routeCoords[wp[0]];}
+
+function updateNavDisplay(){if(!routeSteps.length)return;const curr=routeSteps[currentStepIdx];const next=routeSteps[currentStepIdx+1];if(!curr)return;const[wLat,wLng]=getStepCoord(currentStepIdx);const d=haversine(userLat,userLng,wLat,wLng)*1000;document.getElementById('nav-turn-icon').textContent=stepIcon(curr.instruction);document.getElementById('nav-next-dist').textContent=fmtDist(d);document.getElementById('nav-next-step').textContent=curr.instruction;document.getElementById('nav-after-step').textContent=next?'Then: '+next.instruction:'';const total=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;document.getElementById('nav-remain-dist').textContent=fmtDist(total);const speeds={car:50000,bike:15000,walk:5000};const eta=total/speeds[dirMode]*60;document.getElementById('nav-remain-time').textContent=eta<1?'<1 min':Math.round(eta)+' min';if(!spokenSteps.has(currentStepIdx)&&d<150){speak(curr.instruction);spokenSteps.add(currentStepIdx);}}
+
+function showArrived(){stopNavigation();speak('You have arrived at '+dirMSME.name);document.getElementById('nav-arrived-name').textContent='Welcome to '+dirMSME.name+'!';document.getElementById('nav-arrived').style.display='block';setTimeout(()=>document.getElementById('nav-arrived').style.display='none',8000);}
+
+function speak(text){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-PH';u.rate=1;u.pitch=1;u.volume=1;window.speechSynthesis.speak(u);}
+
+function decodePolyline(encoded,precision=5){let idx=0,lat=0,lng=0;const coords=[];const f=Math.pow(10,precision);while(idx<encoded.length){let b,s=0,r=0;do{b=encoded.charCodeAt(idx++)-63;r|=(b&0x1f)<<s;s+=5;}while(b>=0x20);lat+=(r&1)?~(r>>1):(r>>1);s=r=0;do{b=encoded.charCodeAt(idx++)-63;r|=(b&0x1f)<<s;s+=5;}while(b>=0x20);lng+=(r&1)?~(r>>1):(r>>1);coords.push([lat/f,lng/f]);}return coords;}
+function haversine(la1,lo1,la2,lo2){const R=6371,dLat=(la2-la1)*Math.PI/180,dLon=(lo2-lo1)*Math.PI/180;const a=Math.sin(dLat/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLon/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
+
+// ═══════════════════════════════════════════════
+// FILTERS & LIST
+// ═══════════════════════════════════════════════
+function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();return allData.filter(m=>{const mc=activeFilter==='All'||m.category===activeFilter;const mq=!q||[m.name,m.category,m.municipality,m.description,...(m.products||[]).map(p=>p.name)].some(s=>(s||'').toLowerCase().includes(q));return mc&&mq;});}
+function applyFilters(){const fd=filtered();allData.forEach(m=>{const show=fd.find(f=>f.id===m.id);if(show){placeMarker(m);map.addLayer(markers[m.id]);}else if(markers[m.id])map.removeLayer(markers[m.id]);});buildList(fd);document.getElementById('h-shown').textContent=fd.length;}
+function buildChips(){const cats=['All',...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('chips');el.innerHTML='';cats.forEach(cat=>{const cs=cat==='All'?null:catStyle(cat);const ch=document.createElement('div');ch.className='chip'+(cat===activeFilter?' on':'');ch.textContent=cat==='All'?'🗺 All':`${cs.icon} ${cat}`;ch.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');applyFilters();});el.appendChild(ch);});}
+function buildList(data){const el=document.getElementById('msme-list');const q=document.getElementById('search').value.trim().toLowerCase();el.innerHTML='';if(!data.length){el.innerHTML='<div class="no-results">😔 No MSMEs found</div>';return;}const hi=s=>q?esc(s).replace(new RegExp(`(${escRe(q)})`,'gi'),'<mark>$1</mark>'):esc(s);data.forEach(m=>{const cs=catStyle(m.category);const card=document.createElement('div');card.className='mcard'+(m.id===activeId?' active':'');card.dataset.id=m.id;const logo=m.logoUrl?`<img class="mcard-logo" src="${esc(m.logoUrl)}" onerror="this.outerHTML='<div class=\\'mcard-logo-fb\\' style=\\'background:${cs.bg}\\'>${cs.icon}</div>'">`:`<div class="mcard-logo-fb" style="background:${cs.bg}">${cs.icon}</div>`;const prods=(m.products||[]).slice(0,3).map(p=>hi(p.name)).join(' · ');card.innerHTML=`${logo}<div class="mcard-info"><div class="mcard-name">${hi(m.name)}</div><div class="mcard-cat">${cs.icon} ${esc(m.category)}</div><div class="mcard-muni">📍 ${hi(m.municipality||'—')}</div><div class="mcard-prods">${prods||'—'}</div></div>`;card.addEventListener('click',()=>selectMSME(m.id));el.appendChild(card);});}
+function buildLegend(){const cats=[...new Set(allData.map(m=>m.category).filter(Boolean))];const el=document.getElementById('leg-items');el.innerHTML='';cats.forEach(cat=>{const cs=catStyle(cat);const item=document.createElement('div');item.className='leg-item';item.innerHTML=`<div class="ldot" style="background:${cs.color}"></div><span>${cs.icon} ${esc(cat)}</span>`;item.addEventListener('click',()=>{activeFilter=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.textContent.includes(cat)));applyFilters();});el.appendChild(item);});}
+
+// ═══════════════════════════════════════════════
+// SELECT
+// ═══════════════════════════════════════════════
+function setActive(id){activeId=id;refreshIcons();document.querySelectorAll('.mcard').forEach(c=>c.classList.toggle('active',c.dataset.id===id));if(id){const c=document.querySelector(`.mcard[data-id="${id}"]`);if(c)c.scrollIntoView({behavior:'smooth',block:'center'});}}
+function selectMSME(id){const m=allData.find(x=>x.id===id);if(!m)return;setActive(id);map.flyTo([m.lat,m.lng],Math.max(map.getZoom(),14),{duration:1.2});setTimeout(()=>{if(markers[id])markers[id].openPopup();},900);}
+
+// ═══════════════════════════════════════════════
+// DELETE
+// ═══════════════════════════════════════════════
+async function deleteMSME(id){const m=allData.find(x=>x.id===id);if(!m)return;if(!confirm(`Remove "${m.name}"?`))return;allData=allData.filter(x=>x.id!==id);if(markers[id]){map.removeLayer(markers[id]);delete markers[id];}closeDetail();buildChips();buildLegend();applyFilters();updateStats();const ok=await saveToDB(allData);if(ok)toast(`🗑 "${m.name}" removed`,'success');}
+window.deleteMSME=deleteMSME;
 
 // ═══════════════════════════════════════════════
 // UTILS
