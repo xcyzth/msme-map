@@ -288,6 +288,37 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 #toast.error{background:#B83030}
 mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
 @media(max-width:700px){#sidebar{display:none}#dir-panel.open{width:100%}#legend,#legend.shifted{left:8px}#detail{width:100%}}
+
+/* ── Admin login modal ── */
+#admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:5000;align-items:center;justify-content:center}
+#admin-overlay.open{display:flex}
+#admin-box{background:#fff;border-radius:16px;width:340px;max-width:92vw;padding:28px 28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center}
+#admin-box .ab-icon{font-size:36px;margin-bottom:10px}
+#admin-box h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--ink);margin-bottom:6px}
+#admin-box p{font-size:13px;color:var(--ink3);margin-bottom:18px;line-height:1.5}
+#admin-pw-wrap{position:relative;margin-bottom:12px}
+#admin-pw{width:100%;padding:11px 40px 11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--bg);transition:border-color .2s}
+#admin-pw:focus{outline:none;border-color:var(--green)}
+#admin-pw.wrong{border-color:var(--red);animation:shake .35s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#admin-pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;color:var(--ink3)}
+#admin-err{font-size:12px;color:var(--red);margin-bottom:10px;display:none}
+.admin-login-btn{width:100%;padding:11px;border-radius:9px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:8px}
+.admin-login-btn:hover{background:var(--green2)}
+.admin-cancel-btn{width:100%;padding:8px;border-radius:9px;border:1.5px solid var(--border);background:none;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--ink3)}
+.admin-cancel-btn:hover{background:var(--bg)}
+
+/* Admin mode indicator */
+#admin-bar{display:none;position:fixed;top:56px;left:0;right:0;height:32px;z-index:1090;background:var(--gold);color:var(--ink);font-size:12px;font-weight:600;align-items:center;justify-content:center;gap:10px}
+#admin-bar.show{display:flex}
+#admin-bar button{padding:3px 12px;border-radius:6px;border:1.5px solid rgba(0,0,0,.15);background:rgba(0,0,0,.08);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink)}
+#admin-bar button:hover{background:rgba(0,0,0,.16)}
+
+/* Shift app down when admin bar is shown */
+body.admin-mode #app{padding-top:calc(56px + 32px)}
+body.admin-mode #detail{top:calc(56px + 32px)}
+body.admin-mode #dir-panel{margin-top:0}
+body.admin-mode #legend{bottom:20px}
 </style>
 </head>
 <body>
@@ -327,7 +358,33 @@ mark{background:var(--gold-light);border-radius:2px;padding:0 2px}
   <div class="hstat"><b id="h-munis">—</b><small>Municipalities</small></div>
   <div class="hsep"></div>
   <button class="hbtn" onclick="loadFromDB()">↻ Refresh</button>
-  <button class="hbtn gold" onclick="openModal()">＋ Add MSME</button>
+  <!-- Admin-only buttons — hidden from visitors -->
+  <button class="hbtn gold" id="btn-add-msme" onclick="openModal()" style="display:none">＋ Add MSME</button>
+  <!-- Lock icon — clicking prompts admin login -->
+  <button class="hbtn" id="btn-admin-lock" onclick="showAdminLogin()" title="Admin Login" style="font-size:15px">🔒</button>
+  <button class="hbtn" id="btn-admin-logout" onclick="adminLogout()" style="display:none;background:rgba(255,255,255,.25)">🔓 Logout</button>
+</div>
+
+<!-- Admin bar (shown when logged in) -->
+<div id="admin-bar">
+  🛡 Admin Mode — You can add, edit, and delete MSMEs
+  <button onclick="adminLogout()">Logout</button>
+</div>
+
+<!-- Admin login modal -->
+<div id="admin-overlay">
+  <div id="admin-box">
+    <div class="ab-icon">🔐</div>
+    <h2>Admin Access</h2>
+    <p>Enter the admin password to unlock editing features.</p>
+    <div id="admin-pw-wrap">
+      <input type="password" id="admin-pw" placeholder="Enter password…" onkeydown="if(event.key==='Enter')doAdminLogin()">
+      <button id="admin-pw-eye" onclick="togglePwVis()" tabindex="-1">👁</button>
+    </div>
+    <div id="admin-err">Incorrect password. Try again.</div>
+    <button class="admin-login-btn" onclick="doAdminLogin()">Unlock</button>
+    <button class="admin-cancel-btn" onclick="closeAdminLogin()">Cancel</button>
+  </div>
 </div>
 
 <div id="app">
@@ -618,7 +675,7 @@ function buildPopupHTML(m){
   <div class="pu-foot">
     <button class="pu-btn" onclick="openDetail('${esc(m.id)}')">View Profile</button>
     <button class="pu-dir-btn" onclick="startDirections('${esc(m.id)}')">🧭 Directions</button>
-    <button class="pu-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️</button>
+    ${isAdmin?`<button class="pu-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️</button>`:''}
   </div>`;
 }
 
@@ -700,10 +757,10 @@ function openDetail(id){
     <div class="ds"><h3>Business Certifications</h3>${certHTML}</div>
     <div class="action-row">
       <button class="d-dir-btn" onclick="startDirections('${esc(m.id)}')">🧭 Get Directions</button>
-      <button class="d-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️ Edit</button>
+      ${isAdmin?`<button class="d-edit-btn" onclick="openEditModal('${esc(m.id)}')">✏️ Edit</button>`:''}
     </div>
     ${m.contact?`<button class="d-copy-btn" onclick="copyTxt('${m.contact.replace(/'/g,"\\'")}','${m.name.replace(/'/g,"\\'")}')">📋 Copy Contact</button>`:''}
-    <button class="d-del-btn" onclick="deleteMSME('${esc(m.id)}')">🗑 Remove from Map</button>`;
+    ${isAdmin?`<button class="d-del-btn" onclick="deleteMSME('${esc(m.id)}')">🗑 Remove from Map</button>`:''}`;
   document.getElementById('detail').classList.add('open');
 }
 function closeDetail(){document.getElementById('detail').classList.remove('open');}
@@ -975,6 +1032,74 @@ function setLoadMsg(m){document.getElementById('load-msg').textContent=m;}
 function showSavingBar(v){document.getElementById('saving-bar').classList.toggle('active',v);}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+
+// ═══════════════════════════════════════════════
+// ADMIN AUTH
+// ═══════════════════════════════════════════════
+// Change this password to whatever you want!
+const ADMIN_HASH = '4dti2024scmsme!map'; // <- YOUR PASSWORD (change this)
+
+let isAdmin = false;
+
+function showAdminLogin(){
+  document.getElementById('admin-overlay').classList.add('open');
+  document.getElementById('admin-pw').value='';
+  document.getElementById('admin-err').style.display='none';
+  document.getElementById('admin-pw').classList.remove('wrong');
+  setTimeout(()=>document.getElementById('admin-pw').focus(),100);
+}
+function closeAdminLogin(){
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+function togglePwVis(){
+  const inp=document.getElementById('admin-pw');
+  inp.type=inp.type==='password'?'text':'password';
+}
+function doAdminLogin(){
+  const pw=document.getElementById('admin-pw').value;
+  if(pw===ADMIN_HASH){
+    isAdmin=true;
+    closeAdminLogin();
+    enableAdminMode();
+    toast('🛡 Admin mode activated','success');
+  }else{
+    document.getElementById('admin-err').style.display='block';
+    document.getElementById('admin-pw').classList.add('wrong');
+    setTimeout(()=>document.getElementById('admin-pw').classList.remove('wrong'),400);
+    document.getElementById('admin-pw').value='';
+    document.getElementById('admin-pw').focus();
+  }
+}
+function enableAdminMode(){
+  document.body.classList.add('admin-mode');
+  document.getElementById('btn-add-msme').style.display='flex';
+  document.getElementById('btn-admin-lock').style.display='none';
+  document.getElementById('btn-admin-logout').style.display='flex';
+  document.getElementById('admin-bar').classList.add('show');
+  // Rebuild list & markers to show edit buttons
+  applyFilters();
+  if(document.getElementById('detail').classList.contains('open')&&activeId){
+    openDetail(activeId);
+  }
+}
+function adminLogout(){
+  isAdmin=false;
+  document.body.classList.remove('admin-mode');
+  document.getElementById('btn-add-msme').style.display='none';
+  document.getElementById('btn-admin-lock').style.display='flex';
+  document.getElementById('btn-admin-logout').style.display='none';
+  document.getElementById('admin-bar').classList.remove('show');
+  applyFilters();
+  if(document.getElementById('detail').classList.contains('open')&&activeId){
+    openDetail(activeId);
+  }
+  toast('🔒 Logged out of admin mode');
+}
+window.showAdminLogin=showAdminLogin;
+window.closeAdminLogin=closeAdminLogin;
+window.togglePwVis=togglePwVis;
+window.doAdminLogin=doAdminLogin;
+window.adminLogout=adminLogout;
 
 // ═══════════════════════════════════════════════
 // INIT
