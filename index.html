@@ -113,131 +113,105 @@ html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:var
 #nav-overlay{display:none;position:fixed;inset:0;z-index:3000;pointer-events:none}
 #nav-overlay.active{display:block}
 
-/* Top turn-by-turn card */
+/* Top card — current turn */
 #nav-top{
   position:absolute;top:0;left:0;right:0;
   background:#1967D2;color:#fff;
   pointer-events:all;
   box-shadow:0 4px 24px rgba(0,0,0,.32);
-  animation:slideDown .3s cubic-bezier(.4,0,.2,1);
-  border-radius:0 0 18px 18px;
+  border-radius:0 0 20px 20px;
   overflow:hidden;
+  animation:slideDown .3s cubic-bezier(.4,0,.2,1);
 }
 @keyframes slideDown{from{transform:translateY(-110%)}to{transform:translateY(0)}}
-
-/* Current turn banner */
-#nav-turn-banner{
-  display:flex;align-items:center;gap:0;
-  min-height:88px;
+#nav-turn-banner{display:flex;align-items:stretch;min-height:90px}
+#nav-turn-left{
+  width:96px;background:rgba(0,0,0,.20);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;flex-shrink:0;padding:14px 8px;
 }
-#nav-turn-left-bar{
-  width:90px;min-height:88px;
-  background:rgba(0,0,0,.18);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  flex-shrink:0;padding:12px 8px;
-}
-#nav-turn-arrow{font-size:44px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
-#nav-turn-dist{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);text-align:center;letter-spacing:.02em}
-#nav-turn-right{flex:1;padding:14px 16px;min-width:0}
-#nav-turn-road{font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
-#nav-turn-road-sub{font-size:13px;opacity:.75;margin-top:4px;line-height:1.4}
-
-/* Next turn strip */
+#nav-turn-arrow{font-size:48px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+#nav-turn-dist-label{font-size:13px;font-weight:700;color:rgba(255,255,255,.92);letter-spacing:.02em;text-align:center}
+#nav-turn-right{flex:1;padding:16px 16px;min-width:0;display:flex;flex-direction:column;justify-content:center}
+#nav-turn-instruction{font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+#nav-turn-road-name{font-size:13px;opacity:.72;margin-top:5px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Next-turn strip */
 #nav-next-strip{
-  background:rgba(0,0,0,.15);
-  padding:8px 16px 10px 16px;
-  display:flex;align-items:center;gap:10px;
-  font-size:13px;
+  background:rgba(0,0,0,.18);padding:8px 16px 10px;
+  display:flex;align-items:center;gap:10px;font-size:13px;
 }
-#nav-next-icon{font-size:18px;opacity:.9}
+#nav-next-arrow{font-size:17px;opacity:.9;flex-shrink:0}
 #nav-next-text{opacity:.85;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* Speed + street strip */
+/* Street label */
 #nav-street-strip{
-  background:rgba(255,255,255,.08);
-  padding:5px 16px;
-  font-size:11px;
-  opacity:.7;
-  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.07);padding:5px 16px;
+  font-size:11px;opacity:.65;display:flex;align-items:center;gap:5px;
 }
 
-/* Bottom info bar */
+/* Bottom bar */
 #nav-bottom{
   position:absolute;bottom:0;left:0;right:0;
   background:#fff;color:var(--ink);
   pointer-events:all;
-  box-shadow:0 -4px 24px rgba(0,0,0,.18);
+  box-shadow:0 -4px 24px rgba(0,0,0,.14);
+  border-radius:20px 20px 0 0;
+  padding:18px 20px 22px;
   animation:slideUp .3s cubic-bezier(.4,0,.2,1);
-  border-radius:18px 18px 0 0;
-  padding:16px 20px 20px;
 }
 @keyframes slideUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
-
-#nav-bottom-inner{display:flex;align-items:center;gap:0}
-
-/* ETA box */
-#nav-eta-box{display:flex;flex-direction:column;align-items:flex-start;flex:1;min-width:0}
-#nav-eta-time{font-size:32px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
-#nav-eta-sub{font-size:13px;color:var(--ink3);margin-top:3px;display:flex;align-items:center;gap:6px}
-#nav-eta-dist{font-weight:600;color:var(--ink2)}
-#nav-eta-label{opacity:.7}
-
-/* Dest chip */
+#nav-bottom-row{display:flex;align-items:center;gap:12px}
+#nav-eta-block{display:flex;flex-direction:column;flex:1;min-width:0}
+#nav-eta-mins{font-size:36px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.03em}
+#nav-eta-detail{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:13px;color:var(--ink3)}
+#nav-eta-km{font-weight:700;color:var(--ink2)}
 #nav-dest-chip{
   background:var(--bg);border:1px solid var(--border);
-  border-radius:20px;padding:6px 14px;
+  border-radius:20px;padding:7px 14px;
   font-size:12px;font-weight:600;color:var(--ink2);
-  max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  flex-shrink:0;margin:0 10px;
+  max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;
 }
-
-/* Stop button */
 #nav-stop-btn{
-  width:52px;height:52px;border-radius:50%;border:none;
-  background:#EA4335;color:#fff;
-  font-size:20px;font-weight:900;cursor:pointer;
-  box-shadow:0 4px 14px rgba(234,67,53,.4);
-  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  width:54px;height:54px;border-radius:50%;border:none;
+  background:#EA4335;color:#fff;font-size:22px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(234,67,53,.38);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
   transition:transform .15s,box-shadow .15s;
 }
-#nav-stop-btn:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(234,67,53,.5)}
-#nav-stop-btn:active{transform:scale(.95)}
+#nav-stop-btn:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(234,67,53,.5)}
+#nav-stop-btn:active{transform:scale(.93)}
 
 /* Re-center button */
 #nav-recenter{
-  position:absolute;right:16px;bottom:110px;
-  width:44px;height:44px;border-radius:50%;
+  position:absolute;right:18px;bottom:120px;z-index:10;
+  width:46px;height:46px;border-radius:50%;
   background:#fff;border:none;cursor:pointer;
-  box-shadow:0 2px 12px rgba(0,0,0,.2);
+  box-shadow:0 2px 14px rgba(0,0,0,.20);
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;pointer-events:all;
-  transition:transform .15s;
+  font-size:20px;pointer-events:all;transition:transform .15s;
 }
 #nav-recenter:hover{transform:scale(1.1)}
 
 /* Arrived card */
 #nav-arrived{
-  display:none;position:fixed;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  background:#fff;border-radius:20px;
-  width:min(340px,90vw);
-  padding:0;text-align:center;z-index:4000;
-  box-shadow:0 20px 60px rgba(0,0,0,.25);
-  overflow:hidden;
+  display:none;position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:#fff;border-radius:22px;
+  width:min(340px,90vw);overflow:hidden;
+  z-index:4000;box-shadow:0 20px 60px rgba(0,0,0,.25);
   animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);
 }
 @keyframes popIn{from{transform:translate(-50%,-50%) scale(.7);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
-#nav-arrived-top{background:var(--green);padding:28px 24px 20px;color:#fff}
-#nav-arrived-top .arr-icon{font-size:48px;margin-bottom:8px}
-#nav-arrived-top h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
-#nav-arrived-top p{font-size:13px;opacity:.8}
-#nav-arrived-bottom{padding:16px 20px 20px}
+.arr-top{background:var(--green);padding:28px 24px 22px;text-align:center;color:#fff}
+.arr-icon{font-size:50px;margin-bottom:8px}
+.arr-top h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.arr-top p{font-size:13px;opacity:.82}
+.arr-bottom{padding:18px 20px 22px;text-align:center}
 .arr-done-btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
 
 /* GPS dot */
-.gps-dot-outer{width:22px;height:22px;border-radius:50%;background:rgba(25,103,210,.2);display:flex;align-items:center;justify-content:center;animation:gpsPulse 2s ease-in-out infinite}
-@keyframes gpsPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.5);opacity:.5}}
-.gps-dot-inner{width:13px;height:13px;border-radius:50%;background:#1967D2;border:2.5px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.35)}
+.gps-dot-outer{width:22px;height:22px;border-radius:50%;background:rgba(25,103,210,.18);display:flex;align-items:center;justify-content:center;animation:gpsPulse 2s ease-in-out infinite}
+@keyframes gpsPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.55);opacity:.45}}
+.gps-dot-inner{width:13px;height:13px;border-radius:50%;background:#1967D2;border:2.5px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.32)}
 
 /* ── Map ── */
 #map{flex:1;z-index:1;min-width:0}
@@ -429,62 +403,26 @@ body.admin-mode #legend{bottom:20px}
 <div id="loading"><div class="spinner"></div><h2>South Cotabato MSME Map</h2><p id="load-msg">Loading…</p></div>
 <div id="saving-bar"></div>
 
-<!-- GPS Navigation Overlay — Google Maps style -->
+<!-- GPS Nav Overlay -->
 <div id="nav-overlay">
-
-  <!-- Top: turn-by-turn card -->
-  <div id="nav-top">
-    <div id="nav-turn-banner">
-      <div id="nav-turn-left-bar">
-        <div id="nav-turn-arrow">↑</div>
-        <div id="nav-turn-dist">—</div>
-      </div>
-      <div id="nav-turn-right">
-        <div id="nav-turn-road">Calculating route…</div>
-        <div id="nav-turn-road-sub"></div>
-      </div>
-    </div>
-    <div id="nav-next-strip">
-      <span id="nav-next-icon">↑</span>
-      <span id="nav-next-text">Then: continue straight</span>
-    </div>
-    <div id="nav-street-strip">
-      <span>🛣</span>
-      <span id="nav-street-name">Navigating…</span>
+  <div id="nav-instruction">
+    <div id="nav-turn-icon">↑</div>
+    <div id="nav-instruction-text">
+      <div id="nav-next-dist">—</div>
+      <div id="nav-next-step">Calculating…</div>
+      <div id="nav-after-step"></div>
     </div>
   </div>
-
-  <!-- Re-center button -->
-  <button id="nav-recenter" onclick="navRecenter()" title="Re-center map">🎯</button>
-
-  <!-- Bottom: ETA + Stop -->
   <div id="nav-bottom">
-    <div id="nav-bottom-inner">
-      <div id="nav-eta-box">
-        <div id="nav-eta-time">—</div>
-        <div id="nav-eta-sub">
-          <span id="nav-eta-dist">—</span>
-          <span id="nav-eta-label">remaining</span>
-        </div>
-      </div>
-      <div id="nav-dest-chip" title="">Destination</div>
-      <button id="nav-stop-btn" onclick="stopNavigation()" title="Stop Navigation">✕</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- Arrived card -->
-<div id="nav-arrived">
-  <div id="nav-arrived-top">
-    <div class="arr-icon">🎉</div>
-    <h2>You have arrived!</h2>
-    <p id="nav-arrived-name">Welcome to your destination.</p>
-  </div>
-  <div id="nav-arrived-bottom">
-    <button class="arr-done-btn" onclick="stopNavigation()">Done</button>
+    <div class="nav-stat"><div class="nav-stat-val" id="nav-remain-dist">—</div><div class="nav-stat-label">Remaining</div></div>
+    <div class="nav-sep"></div>
+    <div class="nav-stat"><div class="nav-stat-val" id="nav-remain-time">—</div><div class="nav-stat-label">ETA</div></div>
+    <div class="nav-sep"></div>
+    <div id="nav-dest-name">—</div>
+    <button class="nav-stop-btn" onclick="stopNavigation()">■ Stop</button>
   </div>
 </div>
+<div id="nav-arrived"><h2>🎉 You have arrived!</h2><p id="nav-arrived-name">Welcome!</p><button onclick="stopNavigation()">Done</button></div>
 
 <!-- Header -->
 <div id="header">
@@ -508,12 +446,6 @@ body.admin-mode #legend{bottom:20px}
 <div id="admin-bar">
   🛡 Admin Mode — You can add, edit, and delete MSMEs
   <button onclick="adminLogout()">Logout</button>
-</div>
-
-<!-- Sheet reminder bar (shown after admin edits) -->
-<div id="sheet-reminder" style="display:none;position:fixed;top:88px;left:0;right:0;height:auto;min-height:36px;z-index:1080;background:#1A5C8B;color:#fff;font-size:12px;align-items:center;justify-content:center;gap:10px;padding:6px 16px;text-align:center;flex-wrap:wrap">
-  📋 Your changes are saved locally. To make them permanent for all visitors, please update your <strong>Google Sheet</strong> with the same details.
-  <button onclick="hideSheetReminder()" style="padding:3px 10px;border-radius:5px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">Got it</button>
 </div>
 
 <!-- Admin login modal -->
@@ -670,16 +602,10 @@ body.admin-mode #legend{bottom:20px}
 // ═══════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════
-// ── Google Sheets as database ──────────────────
-const SHEET_ID  = '1_0WO2QIEEUnVccF9W3J4HryMqMRh30eQQook-uIzBCM';
-const SHEET_GID = '0';
-// Columns expected (row 1 = headers):
-// id | name | category | municipality | description | lat | lng
-// contact | logoUrl | products | featuredProducts
-// certDTI | certDTINumber | certMayors | certMayorsNumber
-// certBIR | certBIRNumber | certFDALTO | certFDALTONumber
-// certFDACPR | certFDACPRNumber
-// productPhotoURLs  (comma-separated, matching products order)
+const BIN_ID  = '6a0fc5336610dd3ae88600f1';
+const API_KEY = '$2a$10$a1e/AizzzXrdUaPhguiWJudsGiUD1d5rA0koAXOWFBrEybY.E6uki';
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const JBIN_HEADERS = {'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Versioning':'false'};
 const ORS_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjI2ZmVmMzIxYTYzMjQ0M2Q5MzU3Y2NlODcxMDU1MzNhIiwiaCI6Im11cm11cjY0In0=';
 const ORS_PROFILES = {car:'driving-car',bike:'cycling-regular',walk:'foot-walking'};
 const ARRIVE_RADIUS = 50;
@@ -750,204 +676,24 @@ function initMap(){
 }
 
 // ═══════════════════════════════════════════════
-// DATABASE — Google Sheets via gviz JSONP
+// DATABASE
 // ═══════════════════════════════════════════════
-const CACHE_KEY = 'scmsme_cache';
-
-function saveCache(data){
-  try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),msmes:data}));}catch(e){}
+async function loadFromDB(){
+  setLoadMsg('Loading…');showLoading(true);
+  try{
+    const res=await fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY}});
+    if(!res.ok)throw new Error();
+    const json=await res.json();
+    let msmes=json.record?.msmes;
+    if(!msmes||!msmes.length){await saveToDB(SEED_DATA);msmes=SEED_DATA;}
+    allData=msmes.filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng)).map(migrateEntry);
+    render();showLoading(false);toast('✅ '+allData.length+' MSMEs loaded','success');
+  }catch{showLoading(false);allData=SEED_DATA.map(migrateEntry);render();toast('⚠️ Using cached data','error');}
 }
-function loadCache(){
-  try{const r=localStorage.getItem(CACHE_KEY);if(!r)return null;return JSON.parse(r).msmes||null;}catch{return null;}
-}
-
-// Parse a gviz row cell safely
-function gval(row,idx){
-  if(idx<0||!row.c||!row.c[idx])return '';
-  const v=row.c[idx];
-  if(v===null||v===undefined)return '';
-  return String(v.v!==null&&v.v!==undefined?v.v:v.f||'').trim();
-}
-function gbool(row,idx){
-  const v=gval(row,idx).toLowerCase();
-  return v==='true'||v==='yes'||v==='1';
-}
-
-function parseSheetData(raw){
-  // gviz wraps response in /*O_o*/\ngoogle.visualization.Query.setResponse({…});
-  const json=JSON.parse(raw.replace(/^[^{]+/,'').replace(/\);?\s*$/,''));
-  const cols=json.table.cols.map(c=>c.label.trim().toLowerCase());
-  const rows=json.table.rows||[];
-
-  function ci(name){return cols.indexOf(name.toLowerCase());}
-
-  return rows
-    .filter(row=>row.c&&gval(row,ci('name')))
-    .map((row,i)=>{
-      // Products — comma-separated names
-      const prodNames=(gval(row,ci('products'))||'')
-        .split(',').map(p=>p.trim()).filter(Boolean);
-      // Featured products — comma-separated names (max 3)
-      const featNames=(gval(row,ci('featuredproducts'))||'')
-        .split(',').map(p=>p.trim()).filter(Boolean);
-      // Product photo URLs — comma-separated, matching product order
-      const photoURLs=(gval(row,ci('photourls'))||gval(row,ci('productphotourls'))||'')
-        .split(',').map(p=>p.trim());
-
-      const products=prodNames.map((name,pi)=>({
-        name,
-        photoUrl:photoURLs[pi]||'',
-        featured:featNames.length
-          ? featNames.some(f=>f.toLowerCase()===name.toLowerCase())
-          : pi<3
-      }));
-
-      return{
-        id:       gval(row,ci('id'))||String(i+1),
-        name:     gval(row,ci('name')),
-        category: gval(row,ci('category'))||'Other',
-        municipality:gval(row,ci('municipality')),
-        description: gval(row,ci('description')),
-        lat:      parseFloat(gval(row,ci('lat'))||gval(row,ci('latitude'))||gval(row,ci('mapx'))),
-        lng:      parseFloat(gval(row,ci('lng'))||gval(row,ci('longitude'))||gval(row,ci('mapy'))),
-        contact:  gval(row,ci('contact'))||gval(row,ci('contactinfo')),
-        logoUrl:  gval(row,ci('logourl')),
-        products,
-        certs:{
-          dti:    {has:gbool(row,ci('certdti')),    num:gval(row,ci('certdtinumber'))},
-          mayors: {has:gbool(row,ci('certmayors')), num:gval(row,ci('certmayorsnumber'))},
-          bir:    {has:gbool(row,ci('certbir')),     num:gval(row,ci('certbirnumber'))},
-          fdaLto: {has:gbool(row,ci('certfdalt o'))||gbool(row,ci('certfdalto')), num:gval(row,ci('certfdaltnonumber'))||gval(row,ci('certfdaltoonumber'))},
-          fdaCpr: {has:gbool(row,ci('certfdacpr')),  num:gval(row,ci('certfdacprnumber'))},
-        }
-      };
-    })
-    .filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng));
-}
-
-function loadFromDB(){
-  setLoadMsg('Loading MSME data…');showLoading(true);
-
-  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}&t=${Date.now()}`;
-
-  // JSONP — works from any browser, no CORS issues
-  const cbName='_gsheetCB_'+Date.now();
-  const script=document.createElement('script');
-
-  const timeout=setTimeout(()=>{
-    cleanup();
-    showLoading(false);
-    useCacheFallback();
-  },15000);
-
-  function cleanup(){
-    clearTimeout(timeout);
-    delete window[cbName];
-    if(script.parentNode)script.parentNode.removeChild(script);
-  }
-
-  window[cbName]=function(data){
-    cleanup();
-    try{
-      // data is already parsed when using callback= param
-      const cols=data.table.cols.map(c=>c.label.trim().toLowerCase());
-      const rows=data.table.rows||[];
-      function ci(name){return cols.indexOf(name.toLowerCase());}
-      function gv(row,idx){if(idx<0||!row.c||!row.c[idx])return '';const v=row.c[idx];if(!v)return '';return String(v.v!==null&&v.v!==undefined?v.v:v.f||'').trim();}
-      function gb(row,idx){const v=gv(row,idx).toLowerCase();return v==='true'||v==='yes'||v==='1';}
-
-      allData=rows
-        .filter(row=>row.c&&gv(row,ci('name')))
-        .map((row,i)=>{
-          const prodNames=(gv(row,ci('products'))||'').split(',').map(p=>p.trim()).filter(Boolean);
-          const featNames=(gv(row,ci('featuredproducts'))||'').split(',').map(p=>p.trim()).filter(Boolean);
-          const photoURLs=(gv(row,ci('photourls'))||gv(row,ci('productphotourls'))||'').split(',').map(p=>p.trim());
-          const products=prodNames.map((name,pi)=>({
-            name,photoUrl:photoURLs[pi]||'',
-            featured:featNames.length?featNames.some(f=>f.toLowerCase()===name.toLowerCase()):pi<3
-          }));
-
-          // Find FDA LTO column flexibly
-          const fdaLtoIdx=cols.findIndex(c=>c.includes('fdalto')||c.includes('fda-lto')||c.includes('fda lto'));
-          const fdaLtoNumIdx=cols.findIndex(c=>c.includes('fdaltonu')||c.includes('fda lto n')||c.includes('fda-lto n'));
-          const fdaCprIdx=cols.findIndex(c=>c.includes('fdacpr')||c.includes('fda-cpr')||c.includes('fda cpr'));
-          const fdaCprNumIdx=cols.findIndex(c=>c.includes('fdacprn')||c.includes('fda cpr n')||c.includes('fda-cpr n'));
-
-          return{
-            id:gv(row,ci('id'))||String(i+1),
-            name:gv(row,ci('name')),
-            category:gv(row,ci('category'))||'Other',
-            municipality:gv(row,ci('municipality')),
-            description:gv(row,ci('description')),
-            lat:parseFloat(gv(row,ci('lat'))||gv(row,ci('latitude'))||gv(row,ci('mapx'))||''),
-            lng:parseFloat(gv(row,ci('lng'))||gv(row,ci('longitude'))||gv(row,ci('mapy'))||''),
-            contact:gv(row,ci('contact'))||gv(row,ci('contactinfo')),
-            logoUrl:gv(row,ci('logourl')),
-            products,
-            certs:{
-              dti:   {has:gb(row,ci('certdti')),    num:gv(row,ci('certdtinumber'))},
-              mayors:{has:gb(row,ci('certmayors')), num:gv(row,ci('certmayorsnumber'))},
-              bir:   {has:gb(row,ci('certbir')),     num:gv(row,ci('certbirnumber'))},
-              fdaLto:{has:fdaLtoIdx>=0?gb(row,fdaLtoIdx):false, num:fdaLtoNumIdx>=0?gv(row,fdaLtoNumIdx):''},
-              fdaCpr:{has:fdaCprIdx>=0?gb(row,fdaCprIdx):false, num:fdaCprNumIdx>=0?gv(row,fdaCprNumIdx):''},
-            }
-          };
-        })
-        .filter(m=>m.name&&!isNaN(m.lat)&&!isNaN(m.lng));
-
-      if(!allData.length)throw new Error('No valid rows found');
-      saveCache(allData);
-      render();
-      showLoading(false);
-      toast('✅ '+allData.length+' MSMEs loaded','success');
-    }catch(e){
-      console.error('Parse error:',e);
-      showLoading(false);
-      useCacheFallback();
-    }
-  };
-
-  script.onerror=function(){cleanup();showLoading(false);useCacheFallback();};
-  script.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=out:json&callback=${cbName}&t=${Date.now()}`;
-  document.head.appendChild(script);
-}
-
-function useCacheFallback(){
-  const cached=loadCache();
-  if(cached&&cached.length){
-    allData=cached.map(migrateEntry);render();
-    toast('⚠️ Could not reach Google Sheets — showing last saved data.','error');
-  }else{
-    allData=SEED_DATA.map(migrateEntry);render();
-    toast('⚠️ Could not load data. Showing default MSMEs.','error');
-  }
-}
-
-// ── WRITE-BACK: admin edits save to localStorage + prompt to update Sheet ──
-// Since Google Sheets has no public write API, admin changes are:
-// 1. Shown instantly on screen (in-memory)
-// 2. Saved to localStorage so they persist on refresh
-// 3. A reminder tells admin to update the Sheet too
-let pendingSheetUpdates = false;
-
 async function saveToDB(data){
-  // Save to localStorage immediately
-  saveCache(data);
-  allData=data;
-  pendingSheetUpdates=true;
-  showSheetReminder();
-  return true;
-}
-
-function showSheetReminder(){
-  // Show a gentle reminder that the Sheet needs updating
-  const bar=document.getElementById('sheet-reminder');
-  if(bar)bar.style.display='flex';
-}
-function hideSheetReminder(){
-  const bar=document.getElementById('sheet-reminder');
-  if(bar)bar.style.display='none';
-  pendingSheetUpdates=false;
+  showSavingBar(true);
+  try{const res=await fetch(BIN_URL,{method:'PUT',headers:JBIN_HEADERS,body:JSON.stringify({msmes:data})});if(!res.ok)throw new Error();showSavingBar(false);return true;}
+  catch{showSavingBar(false);toast('❌ Save failed','error');return false;}
 }
 
 // ═══════════════════════════════════════════════
@@ -1307,85 +1053,24 @@ window.toggleNavigation=toggleNavigation;
 function startNavigation(){
   if(!routeSteps.length){toast('Get directions first.','error');return;}
   isNavigating=true;arrivedShown=false;
-  document.getElementById('nav-overlay').classList.add('active');
-  document.getElementById('nav-dest-chip').textContent=dirMSME.name;
-  document.getElementById('nav-dest-chip').title=dirMSME.name;
-  document.getElementById('start-nav-btn').className='start-nav-btn navigating';
-  document.getElementById('start-nav-text').textContent='Stop Navigation';
-  // Close directions panel — full-screen map
-  document.getElementById('dir-panel').classList.remove('open');
-  document.getElementById('legend').classList.remove('shifted');
-  map.setView([userLat,userLng],17);
-  updateNavDisplay();
+  document.getElementById('nav-overlay').classList.add('active');document.getElementById('nav-dest-name').textContent='→ '+dirMSME.name;
+  document.getElementById('start-nav-btn').className='start-nav-btn navigating';document.getElementById('start-nav-text').textContent='Stop Navigation';
+  map.setView([userLat,userLng],16);updateNavDisplay();
   watchId=navigator.geolocation.watchPosition(
-    pos=>{
-      userLat=pos.coords.latitude;userLng=pos.coords.longitude;
-      updateUserMarker(userLat,userLng);
-      if(isNavigating)map.setView([userLat,userLng],17,{animate:true,duration:.8});
-      const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;
-      if(d<=ARRIVE_RADIUS&&!arrivedShown){arrivedShown=true;showArrived();return;}
-      updateStepProgress();updateNavDisplay();
-    },
+    pos=>{userLat=pos.coords.latitude;userLng=pos.coords.longitude;updateUserMarker(userLat,userLng);if(isNavigating)map.setView([userLat,userLng],16,{animate:true,duration:.8});const d=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;if(d<=ARRIVE_RADIUS&&!arrivedShown){arrivedShown=true;showArrived();return;}updateStepProgress();updateNavDisplay();},
     err=>console.warn(err),{enableHighAccuracy:true,maximumAge:2000,timeout:10000}
   );
 }
-
-function stopNavigation(){
-  isNavigating=false;
-  if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}
-  document.getElementById('nav-overlay').classList.remove('active');
-  document.getElementById('nav-arrived').style.display='none';
-  document.getElementById('start-nav-btn').className='start-nav-btn';
-  document.getElementById('start-nav-text').textContent='🚗 Start Navigation';
-}
+function stopNavigation(){isNavigating=false;if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}document.getElementById('nav-overlay').classList.remove('active');document.getElementById('nav-arrived').style.display='none';document.getElementById('start-nav-btn').className='start-nav-btn';document.getElementById('start-nav-text').textContent='🚗 Start Navigation';}
 window.stopNavigation=stopNavigation;
 
-const ARROW_MAP={'turn left':'↰','turn right':'↱','slight left':'↖','slight right':'↗','sharp left':'⬅','sharp right':'➡','keep left':'↖','keep right':'↗','continue':'↑','head':'↑','roundabout':'🔄','arrive':'🎯','depart':'🟢','ferry':'⛴','uturn':'↩'};
-function getArrow(txt){const t=(txt||'').toLowerCase();for(const[k,v]of Object.entries(ARROW_MAP))if(t.includes(k))return v;return'↑';}
-function stepIcon(txt){return getArrow(txt);}
-function setDirStatus(html){document.getElementById('dir-steps').innerHTML=`<div class="dir-status">${html}</div>`;document.getElementById('dir-summary').style.display='none';}
+function updateStepProgress(){if(!routeSteps.length)return;routeSteps.forEach((step,i)=>{if(i<currentStepIdx)return;const wp=step.way_points;if(!wp||!routeCoords[wp[0]])return;const c=routeCoords[wp[0]];if(haversine(userLat,userLng,c[0],c[1])*1000<30&&i>currentStepIdx)currentStepIdx=i;});document.querySelectorAll('.step-item').forEach((el,i)=>{el.classList.toggle('current',i===currentStepIdx);const ic=document.getElementById('step-icon-'+i);if(ic)ic.classList.toggle('active-step',i===currentStepIdx);});const curr=document.getElementById('step-'+currentStepIdx);if(curr)curr.scrollIntoView({behavior:'smooth',block:'nearest'});}
 
-function updateNavDisplay(){
-  if(!routeSteps.length)return;
-  const curr=routeSteps[currentStepIdx];
-  const next=routeSteps[currentStepIdx+1];
-  if(!curr)return;
-  const[wLat,wLng]=getStepCoord(currentStepIdx);
-  const distToTurn=haversine(userLat,userLng,wLat,wLng)*1000;
-  // Top card
-  document.getElementById('nav-turn-arrow').textContent=getArrow(curr.instruction);
-  document.getElementById('nav-turn-dist').textContent=fmtDist(distToTurn);
-  document.getElementById('nav-turn-road').textContent=curr.instruction;
-  const roadMatch=curr.instruction.match(/onto (.+?)(?:,|$)/i)||curr.instruction.match(/ on (.+?)(?:,|$)/i);
-  document.getElementById('nav-street-name').textContent=roadMatch?roadMatch[1]:curr.instruction;
-  // Next strip
-  if(next){
-    document.getElementById('nav-next-icon').textContent=getArrow(next.instruction);
-    document.getElementById('nav-next-text').textContent='Then: '+next.instruction;
-    document.getElementById('nav-next-strip').style.display='flex';
-  }else{
-    document.getElementById('nav-next-strip').style.display='none';
-  }
-  // Bottom ETA
-  const total=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;
-  const speeds={car:50000,bike:15000,walk:5000};
-  const etaMins=Math.round(total/speeds[dirMode]*60);
-  document.getElementById('nav-eta-time').textContent=etaMins<1?'<1 min':etaMins+' min';
-  document.getElementById('nav-eta-dist').textContent=fmtDist(total);
-  // Voice
-  if(!spokenSteps.has(currentStepIdx)&&distToTurn<150){speak(curr.instruction);spokenSteps.add(currentStepIdx);}
-}
+function getStepCoord(si){const step=routeSteps[si];if(!step)return[userLat,userLng];const wp=step.way_points;if(!wp||!routeCoords[wp[0]])return[userLat,userLng];return routeCoords[wp[0]];}
 
-function navRecenter(){if(userLat&&userLng)map.setView([userLat,userLng],17,{animate:true});}
-window.navRecenter=navRecenter;
+function updateNavDisplay(){if(!routeSteps.length)return;const curr=routeSteps[currentStepIdx];const next=routeSteps[currentStepIdx+1];if(!curr)return;const[wLat,wLng]=getStepCoord(currentStepIdx);const d=haversine(userLat,userLng,wLat,wLng)*1000;document.getElementById('nav-turn-icon').textContent=stepIcon(curr.instruction);document.getElementById('nav-next-dist').textContent=fmtDist(d);document.getElementById('nav-next-step').textContent=curr.instruction;document.getElementById('nav-after-step').textContent=next?'Then: '+next.instruction:'';const total=haversine(userLat,userLng,dirMSME.lat,dirMSME.lng)*1000;document.getElementById('nav-remain-dist').textContent=fmtDist(total);const speeds={car:50000,bike:15000,walk:5000};const eta=total/speeds[dirMode]*60;document.getElementById('nav-remain-time').textContent=eta<1?'<1 min':Math.round(eta)+' min';if(!spokenSteps.has(currentStepIdx)&&d<150){speak(curr.instruction);spokenSteps.add(currentStepIdx);}}
 
-function showArrived(){
-  stopNavigation();
-  speak('You have arrived at '+dirMSME.name);
-  document.getElementById('nav-arrived-name').textContent='Welcome to '+dirMSME.name+'!';
-  document.getElementById('nav-arrived').style.display='block';
-  setTimeout(()=>document.getElementById('nav-arrived').style.display='none',9000);
-}
+function showArrived(){stopNavigation();speak('You have arrived at '+dirMSME.name);document.getElementById('nav-arrived-name').textContent='Welcome to '+dirMSME.name+'!';document.getElementById('nav-arrived').style.display='block';setTimeout(()=>document.getElementById('nav-arrived').style.display='none',8000);}
 
 function speak(text){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-PH';u.rate=1;u.pitch=1;u.volume=1;window.speechSynthesis.speak(u);}
 
@@ -1429,7 +1114,7 @@ function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 // ADMIN AUTH
 // ═══════════════════════════════════════════════
 // Change this password to whatever you want!
-const ADMIN_HASH = '4dti2024scmsme!map'; // <- YOUR PASSWORD (change this)
+const ADMIN_HASH = 'dtiscmsmemap'; // <- YOUR PASSWORD (change this)
 
 let isAdmin = false;
 
@@ -1492,7 +1177,6 @@ window.closeAdminLogin=closeAdminLogin;
 window.togglePwVis=togglePwVis;
 window.doAdminLogin=doAdminLogin;
 window.adminLogout=adminLogout;
-window.hideSheetReminder=hideSheetReminder;
 
 // ═══════════════════════════════════════════════
 // INIT
